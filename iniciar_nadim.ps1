@@ -113,6 +113,8 @@ Write-Host "╚" -NoNewline -ForegroundColor Magenta
 write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
 write-host "╝" -ForegroundColor Magenta
 
+
+& .\scp_atualizar_script.ps1
 Write-Host
 & .\scp_rep_desktop.ps1
 Write-Host
