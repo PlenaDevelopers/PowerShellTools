@@ -17,12 +17,6 @@ Write-Host ("{0,-30} : " -f " Script") -NoNewline
 Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
-$computerName = (Get-ComputerInfo).CsName
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Computador") -NoNewline
-Write-Host ("{0,-86} " -f $computerName) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan

@@ -23,12 +23,6 @@ Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
-$computerName = (Get-ComputerInfo).CsName
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Computador") -NoNewline
-Write-Host ("{0,-86} " -f $computerName) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
 Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White

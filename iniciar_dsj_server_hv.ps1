@@ -68,6 +68,7 @@ Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Computador") -NoNewline
 Write-Host ("{0,-86} " -f $computerName) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
+
 Write-Host "╚" -NoNewline -ForegroundColor Yellow
 write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╝" -ForegroundColor Yellow

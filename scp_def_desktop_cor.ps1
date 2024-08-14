@@ -65,10 +65,10 @@ Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
 
-    Write-Host "╠" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Cor de Fundo Definida") -NoNewline
-    Write-Host ("{0,-86} " -f "RGB (74, 84, 89)") -NoNewline -ForegroundColor Green
-    Write-Host "║" -ForegroundColor Cyan
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Cor de Fundo Definida") -NoNewline
+Write-Host ("{0,-86} " -f "RGB (74, 84, 89)") -NoNewline -ForegroundColor Green
+Write-Host "║" -ForegroundColor Cyan
 
 #Final do Script
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
