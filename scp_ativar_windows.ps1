@@ -219,7 +219,6 @@ else {
     Write-Host "║" -ForegroundColor Cyan
 }
 
-
 #Final do Script
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan

@@ -21,6 +21,35 @@ switch ($Tema) {
 
 }
 
+# Início da Interface
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╗" -ForegroundColor Cyan  
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Operação") -NoNewline
+Write-Host ("{0,-86} " -f "Alterar tema do Windows") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-30} : " -f "Copyright") -NoNewline
+Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Yellow
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Script") -NoNewline
+Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Novo Tema") -NoNewline
+Write-Host ("{0,-86} " -f $Tema) -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
 # Definir o valor no Registro
 Set-ItemProperty -Path $regPath -Name $regName -Value $regValue
 
@@ -40,3 +69,17 @@ Stop-Process -Name explorer -Force
 
 # Aguarda alguns segundos antes de reiniciar o Windows Explorer
 Start-Sleep -Seconds 2
+
+#Final do Script
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╣" -ForegroundColor Cyan  
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╚" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╝" -ForegroundColor Cyan  

@@ -132,16 +132,16 @@ if ($ActivationStatus -match "LICENSE STATUS:  ---LICENSED---") {
     Write-Host "║" -ForegroundColor Cyan
 }
 
-# Final do Script
+#Final do Script
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╣" -ForegroundColor Cyan  
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f "Fim do Script") -NoNewline
-Write-Host ("{0,-86} " -f "Ativação do Microsoft Office") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan  
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╝" -ForegroundColor Cyan   
