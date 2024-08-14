@@ -3,32 +3,20 @@ param (
     [string]$imagemCaminho = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
 )
 
-# Caminho do registro para configurar a tela de bloqueio
-$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Lock Screen\"
-$regName = "Creative"
-
-# Verifica se o caminho do registro existe
-if (-not (Test-Path $regPath)) {
-    New-Item -Path $regPath -Force | Out-Null
-}
-
-# Define o caminho da imagem como o valor no registro
-Set-ItemProperty -Path $regPath -Name $regName -Value $imagemCaminho
-
-# Interface amigável com bordas no estilo dos scripts anteriores
-
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╗" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Definir") -NoNewline
-Write-Host ("{0,-86} " -f "Plano de Fundo da Tela de Bloqueio") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-30} : " -f " Operação") -NoNewline
+Write-Host ("{0,-86} " -f "Alterar Imagem de Fundo") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Caminho da Imagem") -NoNewline
-Write-Host ("{0,-86} " -f $imagemCaminho) -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
+Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -38,14 +26,36 @@ Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+# Caminho do registro para configurar a tela de bloqueio
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Lock Screen\"
+$regName = "Creative"
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Caminho da Imagem") -NoNewline
+Write-Host ("{0,-86} " -f $imagemCaminho) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+# Verifica se o caminho do registro existe
+if (-not (Test-Path $regPath)) {
+    New-Item -Path $regPath -Force | Out-Null
+}
+
+# Define o caminho da imagem como o valor no registro
+Set-ItemProperty -Path $regPath -Name $regName -Value $imagemCaminho
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Aplicando Configuração") -NoNewline -ForegroundColor Red
 Write-Host ("{0,-86} " -f $regName+ " = " + $imagemCaminho) -NoNewline -ForegroundColor Red
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
-# Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
@@ -57,4 +67,4 @@ Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan 
+Write-Host "╝" -ForegroundColor Cyan

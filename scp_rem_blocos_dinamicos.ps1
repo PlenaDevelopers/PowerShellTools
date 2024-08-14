@@ -1,20 +1,10 @@
-﻿$START_MENU_LAYOUT = @"
-<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
-    <LayoutOptions StartTileGroupCellWidth="6" />
-    <DefaultLayoutOverride>
-        <StartLayoutCollection>
-            <defaultlayout:StartLayout GroupCellWidth="6" />
-        </StartLayoutCollection>
-    </DefaultLayoutOverride>
-</LayoutModificationTemplate>
-"@
-
-$layoutFile="C:\Windows\StartMenuLayout.xml"
-
-# Início do Script
+﻿# Script para limpar os "Blocos Dinâmicos" do "Menu Iniciar"
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Menu Iniciar") -NoNewline
 Write-Host ("{0,-86} " -f "Remover blocos dinâmicos") -NoNewline -ForegroundColor Yellow
@@ -33,8 +23,24 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
-#Delete layout file if it already exists
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+$START_MENU_LAYOUT = @"
+<LayoutModificationTemplate xmlns:defaultlayout="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" xmlns:start="http://schemas.microsoft.com/Start/2014/StartLayout" Version="1" xmlns:taskbar="http://schemas.microsoft.com/Start/2014/TaskbarLayout" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+    <LayoutOptions StartTileGroupCellWidth="6" />
+    <DefaultLayoutOverride>
+        <StartLayoutCollection>
+            <defaultlayout:StartLayout GroupCellWidth="6" />
+        </StartLayoutCollection>
+    </DefaultLayoutOverride>
+</LayoutModificationTemplate>
+"@
+
+$layoutFile="C:\Windows\StartMenuLayout.xml"
+
+# Remover arquivo de layout se já existir
 If(Test-Path $layoutFile)
 {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -44,7 +50,7 @@ If(Test-Path $layoutFile)
     Remove-Item $layoutFile
 }
 
-#Creates the blank layout file
+# Criar o arquivo de layout em branco
 $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
 
 $regAliases = @("HKLM", "HKCU")
@@ -54,7 +60,7 @@ Write-Host ("{0,-30} : " -f " Usando a Chave") -NoNewline
 Write-Host ("{0,-86} " -f $keyPath) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
-#Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
+# Atribuir o layout do menu Iniciar e forçar a aplicação com "LockedStartLayout" em ambos os níveis, máquina e usuário
 foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
@@ -78,13 +84,12 @@ foreach ($regAlias in $regAliases){
         Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
 }
 
-#Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
+# Reiniciar o Explorer, abrir o menu iniciar (necessário para carregar o novo layout) e aguardar alguns segundos para processar
 Stop-Process -name explorer
 Start-Sleep -s 5
 $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
-Start-Sleep -s 5
 
-#Enable the ability to pin items again by disabling "LockedStartLayout"
+# Habilitar a capacidade de fixar itens novamente desativando "LockedStartLayout"
 foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
@@ -95,19 +100,21 @@ foreach ($regAlias in $regAliases){
     Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
 
-#Restart Explorer and delete the layout file
+# Reiniciar o Explorer e remover o arquivo de layout
 Stop-Process -name explorer
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodapé
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

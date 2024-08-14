@@ -1,4 +1,7 @@
-﻿Write-Host "╔" -NoNewline -ForegroundColor Cyan
+﻿# Script para definir o "Plano de Energia"
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
 
@@ -7,10 +10,10 @@ Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Alterar plano de energia") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -20,7 +23,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Define a política de suspensão para "Nunca"
 powercfg /change standby-timeout-ac 0
     Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -50,17 +56,19 @@ powercfg /change monitor-timeout-dc 0
     Write-Host "║" -ForegroundColor Cyan
 
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

@@ -1,4 +1,7 @@
-﻿Write-Host "╔" -NoNewline -ForegroundColor Cyan
+﻿# Script para reparar Erro de Logons Inseguros
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
 
@@ -20,7 +23,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Caminho do Registro
 $registryPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Lsa"
 
@@ -60,16 +66,20 @@ Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Novo Valor") -NoNewline
 Write-Host ("{0,-86} "   -f "EveryoneIncludesAnonymous=1") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} "   -f "Finalizado") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan
+ 

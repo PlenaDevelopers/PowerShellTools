@@ -1,7 +1,9 @@
-﻿# Início do Script
+﻿# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Backup") -NoNewline
 Write-Host ("{0,-86} " -f "Fazer Backup do Windows") -NoNewline -ForegroundColor Yellow

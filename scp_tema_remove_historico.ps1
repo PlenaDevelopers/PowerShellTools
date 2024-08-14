@@ -1,4 +1,7 @@
-﻿Write-Host "╔" -NoNewline -ForegroundColor Cyan
+﻿# Script para remover o histórico de cores utilizadas no Desktop
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
 
@@ -20,7 +23,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Função para apagar todo o conteúdo de uma chave de registro
 function Remove-RegistryKeyContent {
     param (
@@ -29,7 +35,7 @@ function Remove-RegistryKeyContent {
     
     if (Test-Path $keyPath) {
         # Obter todas as subchaves da chave principal
-        $subKeys = Get-ChildItem -Path $keyPath -Recurse
+        $subKeys = Get-ChildItem -Path $keyPath -Recurse -ErrorAction SilentlyContinue
 
         foreach ($subKey in $subKeys) {
             try {
@@ -68,16 +74,19 @@ Remove-RegistryKeyContent -keyPath $RegPath2
 
 # Reiniciar o processo explorer para aplicar as mudanças
 Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+#----------------------------------------------------------------------------------------------
 
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

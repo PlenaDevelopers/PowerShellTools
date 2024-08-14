@@ -1,4 +1,6 @@
-﻿Write-Host "╔" -NoNewline -ForegroundColor Cyan
+﻿# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
 
@@ -7,10 +9,10 @@ Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Configurar Visualizador de Imagens do Windows") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -20,7 +22,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Configurações para photoviewer.dll
 $photoviewerPath = "HKLM:\SOFTWARE\Classes\Applications\photoviewer.dll"
 Write-Host "║" -NoNewline -ForegroundColor Cyan

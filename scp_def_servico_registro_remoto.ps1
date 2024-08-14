@@ -1,18 +1,19 @@
-﻿# Configurar o serviço
-$Service = Get-Service -Name RemoteRegistry
-
+﻿# Script para parar "Serviço Registro Remoto"
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╗" -ForegroundColor Cyan  
+write-host "╗" -ForegroundColor Cyan 
+ 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Configurar Serviço") -NoNewline
 Write-Host ("{0,-86} " -f $Service.DisplayName) -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -22,7 +23,12 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+# Configurar o serviço
+$Service = Get-Service -Name RemoteRegistry
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Nome do Serviço") -NoNewline
 Write-Host ("{0,-86} " -f $Service.ServiceName) -NoNewline -ForegroundColor Green
@@ -64,17 +70,19 @@ else {
 }
 
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

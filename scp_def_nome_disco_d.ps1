@@ -1,16 +1,19 @@
-﻿# Rótulo desejado para o disco (substitua "Windows" pelo rótulo desejado)
+﻿# Script para alterar o rótulo da "Unidade D"
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Renomear Disco D:") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -20,7 +23,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Rótulo desejado para o disco (substitua "Windows" pelo rótulo desejado)
 $novoRotulo = "arquivos"
 
@@ -67,17 +73,19 @@ if (Test-Path -Path "D:\") {
 } else {
     Write-Host "A unidade D: não existe no computador."
 }
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

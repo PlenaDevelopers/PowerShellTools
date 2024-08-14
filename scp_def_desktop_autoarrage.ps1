@@ -27,8 +27,9 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
-# Repara a configuração de ícones
+# Iniciar Ações
 #----------------------------------------------------------------------------------------------
 # Caminho do registro para a opção de organizar ícones automaticamente
 $regPath = "HKCU:\SOFTWARE\Microsoft\Windows\Shell\Bags\1\Desktop"
@@ -74,7 +75,6 @@ rundll32.exe user32.dll, UpdatePerUserSystemParameters
 
 # Encerra o processo do Windows Explorer para aplicar as alterações imediatamente
 Stop-Process -Name explorer -Force
-
 #----------------------------------------------------------------------------------------------
 
 # Rodape
@@ -84,7 +84,7 @@ Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 

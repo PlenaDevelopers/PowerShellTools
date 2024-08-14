@@ -1,4 +1,33 @@
-﻿$code = @'
+﻿# Script para alterar a cor de fundo do Desktop
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╗" -ForegroundColor Cyan  
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Operação") -NoNewline
+Write-Host ("{0,-86} " -f "Alterar cor de fundo do Desktop") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
+Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Script") -NoNewline
+Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+$code = @'
 using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
@@ -43,43 +72,23 @@ try {
 
 }
 
-# Alterar cor de fundo do Desktop
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╗" -ForegroundColor Cyan  
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Alterar cor de fundo do Desktop") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan
-
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Cor de Fundo Definida") -NoNewline
 Write-Host ("{0,-86} " -f "RGB (74, 84, 89)") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

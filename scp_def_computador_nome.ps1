@@ -2,19 +2,21 @@
     [string]$nome_pc = "temp-pc"
 )
 
-# Renomear o computador
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Renomear Computador") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -29,7 +31,10 @@ Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Nome Atual") -NoNewline
 Write-Host ("{0,-86} " -f $($env:COMPUTERNAME)) -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Nome atual do computador
 $currentComputerName = $env:COMPUTERNAME
 
@@ -53,8 +58,10 @@ else {
 }
 
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
+#----------------------------------------------------------------------------------------------
 
-# Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
