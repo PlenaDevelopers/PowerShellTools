@@ -1,16 +1,19 @@
 ﻿Clear
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Yellow
 write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╗" -ForegroundColor Yellow  
+
 Write-Host "║" -NoNewline -ForegroundColor Yellow
 Write-Host ("{0,-30} : " -f " Iniciar") -NoNewline
 Write-Host ("{0,-86} " -f "Script de Download") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -20,7 +23,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Define o repositório e a branch
 $owner = "Underrun2016"
 $repo = "PowerShellTools"
@@ -80,7 +86,10 @@ function Download-Files {
 
 # Inicia o download recursivo
 Download-Files -url "https://api.github.com/repos/$owner/$repo/contents?ref=$branch" -localDir $localPath
+#----------------------------------------------------------------------------------------------
 
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  

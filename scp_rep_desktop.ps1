@@ -4,6 +4,8 @@ $perfil_usuario = [System.Environment]::GetFolderPath('UserProfile')
 # Encontrar a pasta "Desktop" do usuário
 $pastaDesktop = [System.Environment]::GetFolderPath('Desktop')
 
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╗" -ForegroundColor Cyan  
@@ -26,7 +28,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Exibir o caminho da pasta do perfil
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Pasta do Perfil") -NoNewline
@@ -86,23 +91,8 @@ Write-Host "║" -ForegroundColor Cyan
 
 Get-ChildItem -Path "$pastaDesktop\*.rdp" | Move-Item -Destination $pastaAtalhosAntigos -Force
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Tarefa") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Organizar") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
-
-# Caminho do Registro para ícones na área de trabalho
-$desktopIconsRegistryPath = "HKCU:\Software\Microsoft\Windows\Shell\Bags\1\Desktop"
-
-# Valor 1 para ativar o Auto Arrange (organização automática)
-$autoArrangeValue = 1
-
-# Criar ou atualizar a entrada no Registro para ativar o Auto Arrange
-$null = New-ItemProperty -Path $desktopIconsRegistryPath -Name "FFlags" -Value $autoArrangeValue -PropertyType DWORD -Force
-
-# Reiniciar o processo do Explorer para aplicar as alterações
-Stop-Process -Name explorer -Force
-
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  

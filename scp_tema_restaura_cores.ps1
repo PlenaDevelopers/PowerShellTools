@@ -1,11 +1,9 @@
-﻿param (
-    [string]$RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent",
-    [string]$AccentColor = '0xFF0078D7'  # Cor #0078D7 em formato ARGB
-)
-
+﻿# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Restaurar Cores do Tema") -NoNewline -ForegroundColor Yellow
@@ -24,6 +22,12 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+$RegPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent"
+$AccentColor = '0xFF0078D7'  # Cor #0078D7 em formato ARGB
 
 # Definir cor #0078D7
 $AccentColorMenuKey = @{
@@ -88,13 +92,16 @@ If ($Null -eq (Get-ItemProperty -Path $RegPath -Name $StartMenuKey.Key -ErrorAct
 
 # Reiniciar o processo explorer para aplicar as mudanças
 Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+#----------------------------------------------------------------------------------------------
 
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 

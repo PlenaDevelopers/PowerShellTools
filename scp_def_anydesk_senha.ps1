@@ -1,19 +1,23 @@
-﻿  #Script para definr o acesso remoto do Anydesk
+﻿# Script para definr o acesso remoto do Anydesk
 param (
     [string]$UnattendedPassword = 'P@ssw0rd2024'
 )
+
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Configurar") -NoNewline
 Write-Host ("{0,-86} " -f "Anydesk") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -23,7 +27,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Senha") -NoNewline
 Write-Host ("{0,-86} " -f $UnattendedPassword) -NoNewline -ForegroundColor White
@@ -53,7 +60,6 @@ function Set-AnyDeskPassword {
     
     # Executando o comando
     Invoke-Expression $command
-
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Status") -NoNewline
     Write-Host ("{0,-86} " -f "Senha de acesso não configurada com sucesso.") -NoNewline -ForegroundColor White
@@ -71,7 +77,6 @@ function Set-AnyDeskPermissions {
     
     # Executando o comando
     Invoke-Expression $command
-    
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Status") -NoNewline
     Write-Host ("{0,-86} " -f "Perfil de acesso não configurada com sucesso.") -NoNewline -ForegroundColor White
@@ -82,7 +87,6 @@ function Set-AnyDeskPermissions {
 if (Test-AnyDeskInstallation) {
     # Configurando as permissões de acesso não supervisionado
     Set-AnyDeskPermissions
-    
     # Definindo a senha de acesso não supervisionado
     Set-AnyDeskPassword -password $UnattendedPassword
 } else {
@@ -91,17 +95,19 @@ if (Test-AnyDeskInstallation) {
     Write-Host ("{0,-86} " -f "AnyDesk não está instalado neste sistema.") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

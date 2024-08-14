@@ -1,15 +1,18 @@
-﻿Write-Host "╔" -NoNewline -ForegroundColor Cyan
+﻿# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Ativar Microsoft Windows") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -19,11 +22,16 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Versões Suportadas") -NoNewline
 Write-Host ("{0,-86} " -f "Serial Utilizado" ) -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Gray
+write-host "╣" -ForegroundColor Cyan
 
 # Windows 10 Professional                                 W269N-WFGWX-YVC9B-4J6C9-T83GX
 Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -149,6 +157,8 @@ Write-Host "║" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 $os = (Get-CimInstance Win32_OperatingSystem).Caption
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -159,7 +169,6 @@ Write-Host "║" -ForegroundColor Cyan
 if ($os -like '*Windows 10 Enterprise*') {
     $chave = "NPPR9-FWDCX-D2C8J-H872K-2YT43"
 }
-
 if ($os -like '*Windows 11*') {
     $chave = "W269N-WFGWX-YVC9B-4J6C9-T83GX"
 }
@@ -218,17 +227,19 @@ else {
     Write-Host ("{0,-86} " -f "O Windows não está ativado.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
 
-#Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

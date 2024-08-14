@@ -1,24 +1,36 @@
 ﻿param (
-    [string]$nome_arquivo_rdp,
-    [string]$rdp_server
+    [string]$nome_arquivo_rdp = "Teste.rdp",
+    [string]$rdp_server = "192.168.100.100"
     )
 
-# Criar arquivo Remote Desktop
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Operação") -NoNewline
 Write-Host ("{0,-86} " -f "Criar atalho Remote Desktop") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
+Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
 Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
+
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 # Caminho para a área de trabalho
 $desktopPath = [System.IO.Path]::Combine([System.Environment]::GetFolderPath('Desktop'), $nome_arquivo_rdp)
 
@@ -78,6 +90,11 @@ enablerdsaadauth:i:0
 # Cria o arquivo RDP
 $rdpContent | Out-File -FilePath $desktopPath -Encoding UTF8
 
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Servidor") -NoNewline
+Write-Host ("{0,-86} " -f $rdp_server) -NoNewline -ForegroundColor Cyan
+Write-Host "║" -ForegroundColor Cyan
+
 # Se o arquivo existir
 if (Test-Path -Path $desktopPath) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -94,16 +111,19 @@ else {
 
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
 
-#Final do Script
+#----------------------------------------------------------------------------------------------
+
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan 
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

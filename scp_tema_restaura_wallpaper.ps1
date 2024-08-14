@@ -1,8 +1,5 @@
-﻿param (
-    [string]$defaultWallpaperPath = "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
-)
-
-# Exibindo cabeçalho
+﻿# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╗" -ForegroundColor Cyan  
@@ -24,6 +21,11 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+$defaultWallpaperPath = "$env:SystemRoot\Web\Wallpaper\Windows\img0.jpg"
 
 # Função para restaurar o papel de parede padrão
 function Restore-Wallpaper {
@@ -56,13 +58,16 @@ Restore-Wallpaper
 
 # Reiniciar o processo explorer para aplicar as mudanças
 Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+#----------------------------------------------------------------------------------------------
 
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
