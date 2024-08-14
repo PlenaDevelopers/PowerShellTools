@@ -76,7 +76,7 @@ Write-Host "Definindo as variáveis deste Script"
 $nome_pc = "marzzallo-01"
 $endereco_pc = "Avenida Vautier, 661"
 $perfil_usuario = $env:USERPROFILE
-$usuario_nome = 'Marzzallo Brasil'
+$usuario_nome = 'Marzzallo Presentes'
 $chave_windows = "W269N-WFGWX-YVC9B-4J6C9-T83GX"
 $senha_anydesk = 'M@rzza!!02024'
 $wallpaper = "$PSScriptRoot\wallpaper\wallpaper_marzzallo.jpg"
