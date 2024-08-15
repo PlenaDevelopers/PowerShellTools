@@ -47,7 +47,7 @@ If(Test-Path $layoutFile)
     Write-Host ("{0,-30} : " -f " Remover Arquivo") -NoNewline
     Write-Host ("{0,-86} " -f $layoutFile) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
-    Remove-Item $layoutFile
+    $null=Remove-Item $layoutFile
 }
 
 # Criar o arquivo de layout em branco
@@ -69,19 +69,19 @@ foreach ($regAlias in $regAliases){
         Write-Host ("{0,-30} : " -f " Criar Chave") -NoNewline
         Write-Host ("{0,-86} " -f $basePath) -NoNewline -ForegroundColor White
         Write-Host "║" -ForegroundColor Cyan
-        New-Item -Path $basePath -Name "Explorer"
+        $null=New-Item -Path $basePath -Name "Explorer"
     }
         Write-Host "║" -NoNewline -ForegroundColor Cyan
         Write-Host ("{0,-30} : " -f " Criar Valor") -NoNewline
         Write-Host ("{0,-86} " -f "LockedStartLayout = 1") -NoNewline -ForegroundColor White
         Write-Host "║" -ForegroundColor Cyan
-        Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
+        $null=Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
     
         Write-Host "║" -NoNewline -ForegroundColor Cyan
         Write-Host ("{0,-30} : " -f " Criar Valor") -NoNewline
         Write-Host ("{0,-86} " -f $layoutFile) -NoNewline -ForegroundColor White
         Write-Host "║" -ForegroundColor Cyan
-        Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
+        $null=Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
 }
 
 # Reiniciar o Explorer, abrir o menu iniciar (necessário para carregar o novo layout) e aguardar alguns segundos para processar
@@ -97,7 +97,7 @@ foreach ($regAlias in $regAliases){
     Write-Host ("{0,-30} : " -f " Criar Valor") -NoNewline
     Write-Host ("{0,-86} " -f "LockedStartLayout = 0") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
-    Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
+    $null=Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
 
 # Reiniciar o Explorer e remover o arquivo de layout
