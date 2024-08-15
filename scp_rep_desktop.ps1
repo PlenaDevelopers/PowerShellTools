@@ -91,10 +91,12 @@ Write-Host ("{0,-86} " -f "Conexões RDP") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
 Get-ChildItem -Path "$pastaDesktop\*.rdp" | Move-Item -Destination $pastaAtalhosAntigos -Force
+#----------------------------------------------------------------------------------------------
 
 # Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
 get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
 
 # Rodape
 #----------------------------------------------------------------------------------------------

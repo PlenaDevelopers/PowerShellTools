@@ -113,7 +113,7 @@ else {
 
 # Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-get-process explorer | Stop-Process -Force
+#get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape
