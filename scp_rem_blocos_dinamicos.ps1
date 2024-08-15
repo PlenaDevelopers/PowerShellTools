@@ -100,11 +100,12 @@ foreach ($regAlias in $regAliases){
     $null=Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
 
-# Reiniciar o Explorer e remover o arquivo de layout
-Stop-Process -name explorer
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
-# Rodapé
+# Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan

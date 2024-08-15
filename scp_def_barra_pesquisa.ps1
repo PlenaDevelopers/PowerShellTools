@@ -3,19 +3,21 @@ param (
     [string]$acao = "0" # 0 para desativar, 1 para ativar
 )
 
-# Cabeçalho do Script
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╗" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Definir") -NoNewline
 Write-Host ("{0,-86} " -f "Barra de Pesquisa") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Script") -NoNewline
@@ -25,7 +27,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Defina o caminho do Registro e os valores
 $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"
 $regName = "SearchboxTaskbarMode"
@@ -56,23 +61,21 @@ $explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
 if (-not $explorerProcess) {
     Start-Process explorer
 }
+#----------------------------------------------------------------------------------------------
 
-# Atualiza as configurações para refletir as mudanças
+# Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
 
-# Encerra o processo do Windows Explorer para aplicar as alterações imediatamente
-Stop-Process -Name explorer -Force
-
-# Aguarda alguns segundos antes de reiniciar o Windows Explorer
-Start-Sleep -Seconds 2
-
-# Final do Script
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 

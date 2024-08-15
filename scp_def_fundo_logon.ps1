@@ -123,10 +123,14 @@ try {
     Write-Host ("{0,-86} " -f "Falha ao desbloquear a tela: $_") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
-
 #----------------------------------------------------------------------------------------------
 
-# Rodapé
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
+
+# Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan

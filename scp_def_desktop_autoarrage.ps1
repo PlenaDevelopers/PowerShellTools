@@ -69,12 +69,11 @@ $explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
 if (-not $explorerProcess) {
     Start-Process explorer
 }
+#----------------------------------------------------------------------------------------------
 
-# Atualiza as configurações para refletir as mudanças
+# Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Encerra o processo do Windows Explorer para aplicar as alterações imediatamente
-Stop-Process -Name explorer -Force
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

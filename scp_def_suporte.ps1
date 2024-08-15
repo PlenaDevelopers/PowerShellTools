@@ -94,6 +94,11 @@ if (Test-Path $registryPath) {
 }
 #----------------------------------------------------------------------------------------------
 
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
+
 # Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan

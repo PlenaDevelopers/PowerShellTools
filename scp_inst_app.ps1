@@ -151,8 +151,9 @@ Start-Process -FilePath $installerPath -ArgumentList "/silent /install" -Wait
 Remove-Item -Path $installerPath
 #----------------------------------------------------------------------------------------------
 
-# Reiniciar o Explorer para aplicar as alterações
-Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

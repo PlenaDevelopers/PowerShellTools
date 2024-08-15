@@ -56,7 +56,9 @@ Write-Host ("{0,-30} : " -f "Chaves") -NoNewline
 Write-Host ("{0,-86} " -f "Restauradas") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
-Stop-Process -Name explorer -Force
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

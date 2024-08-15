@@ -25,6 +25,8 @@ write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
 #----------------------------------------------------------------------------------------------
 
+# Cabeçalho de Informações
+#----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Versões Suportadas") -NoNewline
 Write-Host ("{0,-86} " -f "Serial Utilizado" ) -NoNewline -ForegroundColor Yellow
@@ -157,6 +159,7 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
@@ -228,6 +231,11 @@ else {
     Write-Host ("{0,-86} " -f "O Windows não está ativado.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
+
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

@@ -108,6 +108,11 @@ Start-Process -FilePath $updatesDirectory\"Net-Framework 4.8.1.exe" -ArgumentLis
 
 #----------------------------------------------------------------------------------------------
 
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
+
 # Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan

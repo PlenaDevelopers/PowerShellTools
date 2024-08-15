@@ -23,6 +23,10 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
+
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -63,6 +67,11 @@ Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Novo Valor") -NoNewline
 Write-Host ("{0,-86} " -f "RpcAuthnLevelPrivacyEnabled=0") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
+
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

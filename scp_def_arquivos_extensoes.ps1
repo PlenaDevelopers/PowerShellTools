@@ -64,11 +64,12 @@ if (Test-Path $registryPath) {
     Write-Host "║" -ForegroundColor Cyan
 }
 
-# Reinicia o processo do Explorer para aplicar as alterações
-Stop-Process -Name explorer -Force
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
-# Rodapé
+# Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan

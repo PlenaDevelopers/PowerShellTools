@@ -221,12 +221,11 @@ Write-Host ("{0,-30} : " -f " Criando Valor") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "ActiveProfileId") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 $null=New-ItemProperty -Path $regPath -Name "ActiveProfileId" -Value "Default" -PropertyType String -Force | Out-Null
+#----------------------------------------------------------------------------------------------
 
-# Atualiza as configurações para refletir as mudanças
+# Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Opcional: Reiniciar o processo do Windows Explorer
-Stop-Process -Name explorer -Force
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

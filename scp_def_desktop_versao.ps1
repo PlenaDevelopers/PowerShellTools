@@ -49,7 +49,7 @@ $regValue = [int]$valor
 # Verifique se a chave do Registro existe
 if (-not (Test-Path $regPath)) {
     # Crie a chave do Registro se não existir
-    New-Item -Path $regPath -Force
+    $null=New-Item -Path $regPath -Force
 }
 
 # Atualize ou crie o valor do Registro
@@ -63,11 +63,11 @@ if ($regValue -eq 1) {
 }
 Write-Host "║" -ForegroundColor Cyan
 
-Set-ItemProperty -Path $regPath -Name $regName -Value $regValue
+$bull=Set-ItemProperty -Path $regPath -Name $regName -Value $regValue
 
-# Atualizar a configuração do sistema para aplicar a mudança imediatamente
-RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters 1, True
-Stop-Process -Name explorer -Force
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

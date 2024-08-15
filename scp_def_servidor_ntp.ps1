@@ -120,7 +120,9 @@ Write-Host ("{0,-30} : " -f " Hora atual") -NoNewline
 Write-Host ("{0,-86} " -f $($currentDateTime)) -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
+# Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

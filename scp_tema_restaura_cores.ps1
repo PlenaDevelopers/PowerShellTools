@@ -90,8 +90,9 @@ If ($Null -eq (Get-ItemProperty -Path $RegPath -Name $StartMenuKey.Key -ErrorAct
     Set-ItemProperty -Path $RegPath -Name $StartMenuKey.Key -Value $StartMenuKey.Value -Force
 }
 
-# Reiniciar o processo explorer para aplicar as mudanças
-Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

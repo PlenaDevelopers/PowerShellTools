@@ -64,6 +64,15 @@ Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Novo Valor") -NoNewline
 Write-Host ("{0,-86} " -f "AllowEncryptionOracle=2") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
+
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
+
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape

@@ -95,6 +95,11 @@ Start-Process -FilePath $updatesDirectory\"Windows8.1-KB2999226-x64.msu" -Argume
 
 #----------------------------------------------------------------------------------------------
 
+# Reiniciar O Windows Explorer
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+get-process explorer | Stop-Process -Force
+#----------------------------------------------------------------------------------------------
+
 # Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan

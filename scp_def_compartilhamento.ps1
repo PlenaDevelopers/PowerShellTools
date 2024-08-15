@@ -144,10 +144,11 @@ else {
     Write-Host ("{0,-86} " -f "O compartilhamento $($caminhoCompleto) não foi criado") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
 
-# Forçar uma atualização nas configurações de exibição
+# Reiniciar O Windows Explorer
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
+get-process explorer | Stop-Process -Force
 #----------------------------------------------------------------------------------------------
 
 # Rodape
