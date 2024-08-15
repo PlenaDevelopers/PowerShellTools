@@ -1,4 +1,5 @@
-﻿# Cabeçalho
+﻿# Script para ativar o Microsoft Windows
+# Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan

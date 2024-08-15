@@ -1,4 +1,5 @@
-﻿# Cabeçalho
+﻿# Scipt para ativar o "Visualizador de Imagens Clássico"
+# Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan

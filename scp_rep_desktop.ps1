@@ -1,9 +1,4 @@
-﻿# Detectar o perfil do usuário atual
-$perfil_usuario = [System.Environment]::GetFolderPath('UserProfile')
-
-# Encontrar a pasta "Desktop" do usuário
-$pastaDesktop = [System.Environment]::GetFolderPath('Desktop')
-
+﻿# Script para fazer backup dos ícones da "Área de Trabalho"
 # Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
@@ -32,6 +27,12 @@ Write-Host "╣" -ForegroundColor Cyan
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
+# Detectar o perfil do usuário atual
+$perfil_usuario = [System.Environment]::GetFolderPath('UserProfile')
+
+# Encontrar a pasta "Desktop" do usuário
+$pastaDesktop = [System.Environment]::GetFolderPath('Desktop')
+
 # Exibir o caminho da pasta do perfil
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Pasta do Perfil") -NoNewline

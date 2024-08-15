@@ -1,4 +1,5 @@
-﻿param (
+﻿#Script que remove a caixa de news
+param (
     [string]$acao = "0" # "0" para desativar, "1" para ativar
 )
 

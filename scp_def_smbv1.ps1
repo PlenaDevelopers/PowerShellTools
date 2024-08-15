@@ -1,4 +1,5 @@
-﻿# Cabeçalho
+﻿# Script para ativar o "Suporte a Compartilhamentos de Arquivos SMBv1"
+# Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan

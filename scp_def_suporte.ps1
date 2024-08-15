@@ -37,7 +37,7 @@ $destinationLogoPath = "C:\Windows\System32\oem\logo_plena.bmp"
 
 # Verifique se a pasta de destino existe, se não, crie-a
 if (-not (Test-Path "C:\Windows\System32\oem")) {
-    New-Item -Path "C:\Windows\System32\oem" -ItemType Directory -Force
+    $null=New-Item -Path "C:\Windows\System32\oem" -ItemType Directory -Force
 }
 
 # Copie a imagem BMP para o diretório do Windows

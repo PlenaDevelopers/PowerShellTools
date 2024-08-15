@@ -1,4 +1,5 @@
-﻿# Parâmetro de entrada
+﻿#Script para Ativar o Microsoft Office 365
+# Parâmetro de entrada
 Param (
     [string]$ProductKey = "XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99" # Chave padrão
 )

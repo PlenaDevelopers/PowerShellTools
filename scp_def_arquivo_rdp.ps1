@@ -1,4 +1,5 @@
-﻿param (
+﻿# Script para gerar arquivos "Remote Desktop"
+param (
     [string]$nome_arquivo_rdp = "Teste.rdp",
     [string]$rdp_server = "192.168.100.100"
     )
