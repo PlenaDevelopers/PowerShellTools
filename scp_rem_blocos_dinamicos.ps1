@@ -55,15 +55,16 @@ $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
 
 $regAliases = @("HKLM", "HKCU")
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Usando a Chave") -NoNewline
-Write-Host ("{0,-86} " -f $keyPath) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
+
 
 # Atribuir o layout do menu Iniciar e forçar a aplicação com "LockedStartLayout" em ambos os níveis, máquina e usuário
 foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Usando a Chave") -NoNewline
+    Write-Host ("{0,-86} " -f $keyPath) -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
     IF(!(Test-Path -Path $keyPath)) { 
         Write-Host "║" -NoNewline -ForegroundColor Cyan
         Write-Host ("{0,-30} : " -f " Criar Chave") -NoNewline
