@@ -165,7 +165,6 @@ if ($explorerProcess) {
     Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
     Write-Host "║" -ForegroundColor Cyan
     Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-    Start-Process explorer -WindowStyle Hidden
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline

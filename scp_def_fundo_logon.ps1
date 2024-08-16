@@ -11,7 +11,7 @@ Write-Host "╗" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Alterar Imagem de Fundo") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f "Alterar Imagem de Fundo (Tela de Bloqueio)") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -36,14 +36,19 @@ $destinoImagem = "C:\Windows\Web\Screen\Lockscreen.jpg"
 
 # Copia a imagem para o diretório de bloqueio de tela
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Copiando Imagem") -NoNewline
-Write-Host ("{0,-86} " -f "De $imagem para $destinoImagem") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f " Copiando Imagem (Origem)") -NoNewline
+Write-Host ("{0,-86} " -f $imagem) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Copiando Imagem (Destino)") -NoNewline
+Write-Host ("{0,-86} " -f $destinoImagem) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 try {
     $null=Copy-Item -Path $imagem -Destination $destinoImagem -Force
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Copia") -NoNewline
+    Write-Host ("{0,-30} : " -f " Copiar Arquivo") -NoNewline
     Write-Host ("{0,-86} " -f "Imagem copiada com sucesso") -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Cyan
 } catch {
@@ -64,8 +69,8 @@ if (-not (Test-Path $regPath)) {
 
 # Define os valores no registro
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Aplicando Configuração") -NoNewline -ForegroundColor Red
-Write-Host ("{0,-86} " -f "LockScreenImagePath, LockScreenImageUrl e LockScreenImageStatus definidos") -NoNewline -ForegroundColor Red
+Write-Host ("{0,-30} : " -f " Aplicando Configuração") -NoNewline -ForegroundColor white
+Write-Host ("{0,-86} " -f "LockScreenImagePath, LockScreenImageUrl e LockScreenImageStatus definidos") -NoNewline -ForegroundColor cyan
 Write-Host "║" -ForegroundColor Cyan
 
 try {
@@ -82,8 +87,8 @@ try {
 
 # Ajusta permissões no diretório de sistema
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Ajustando Permissões") -NoNewline -ForegroundColor Red
-Write-Host ("{0,-86} " -f "Ajustando permissões no diretório SystemData") -NoNewline -ForegroundColor Red
+Write-Host ("{0,-30} : " -f " Ajustando Permissões") -NoNewline -ForegroundColor white
+Write-Host ("{0,-86} " -f "Ajustando permissões no diretório SystemData") -NoNewline -ForegroundColor cyan
 Write-Host "║" -ForegroundColor Cyan
 
 try {
@@ -119,7 +124,6 @@ if ($explorerProcess) {
     Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
     Write-Host "║" -ForegroundColor Cyan
     Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-    Start-Process explorer -WindowStyle Hidden
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
