@@ -1,5 +1,5 @@
 ﻿param (
-    [string]$wallpaper = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
+    [string]$imagem = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
 )
 
 # Função para definir o wallpaper
@@ -106,15 +106,15 @@ Write-Host ("{0,-30} : " -f " Novo Wallpaper") -NoNewline
 Write-Host ("{0,-86} " -f $wallpaper) -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
-if (Test-Path $wallpaper) {
-    $arquivo = (Get-Item $wallpaper).Name
+if (Test-Path $imagem) {
+    $arquivo = (Get-Item $imagem).Name
     $caminhoDestino = "$env:windir\Web\Wallpaper\"
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Arquivo") -NoNewline
     Write-Host ("{0,-86} " -f "$caminhoDestino$($arquivo)") -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Cyan
 
-    Copy-Item -Path $wallpaper -Destination $caminhoDestino -Force
+    Copy-Item -Path $imagem -Destination $caminhoDestino -Force
     Set-Wallpaper "$caminhoDestino$($arquivo)"
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan

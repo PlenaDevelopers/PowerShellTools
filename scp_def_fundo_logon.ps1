@@ -1,6 +1,6 @@
 ﻿# Script para alterar o plano de fundo da tela de bloqueio
 param (
-    [string]$imagemCaminho = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
+    [string]$imagem = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
 )
 
 # Cabeçalho
@@ -37,11 +37,11 @@ $destinoImagem = "C:\Windows\Web\Screen\Lockscreen.jpg"
 # Copia a imagem para o diretório de bloqueio de tela
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Copiando Imagem") -NoNewline
-Write-Host ("{0,-86} " -f "De $imagemCaminho para $destinoImagem") -NoNewline -ForegroundColor White
+Write-Host ("{0,-86} " -f "De $imagem para $destinoImagem") -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 try {
-    $null=Copy-Item -Path $imagemCaminho -Destination $destinoImagem -Force
+    $null=Copy-Item -Path $imagem -Destination $destinoImagem -Force
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Copia") -NoNewline
     Write-Host ("{0,-86} " -f "Imagem copiada com sucesso") -NoNewline -ForegroundColor Green

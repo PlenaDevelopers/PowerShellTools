@@ -213,10 +213,6 @@ if (Test-Path $netFrameworkPath) {
     Write-Host ("{0,-86} " -f "NET Framework 4.8.1 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
-
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan
 #----------------------------------------------------------------------------------------------
 
 # Rodape

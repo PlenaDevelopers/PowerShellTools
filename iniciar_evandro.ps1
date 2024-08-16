@@ -79,8 +79,8 @@ $perfil_usuario = $env:USERPROFILE
 $usuario_nome = 'Plena Soluções'
 $chave_windows = "W269N-WFGWX-YVC9B-4J6C9-T83GX"
 $senha_anydesk = 'P@ssw0rdCore2024'
-$wallpaper = "$PSScriptRoot\wallpaper\wallpaper_evandro.jpg"
-$avatar = "avatar_lextack.jpg"
+$imagem_wallpaper = "$PSScriptRoot\wallpaper\wallpaper_evandro.jpg"
+$imagem_fundo = "$PSScriptRoot\wallpaper\wallpaper_evandro.jpg"
 
 Write-Host "╔" -NoNewline -ForegroundColor Magenta
 write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
@@ -169,9 +169,9 @@ Write-Host
 Write-Host
 & .\scp_def_barra_news.ps1
 Write-Host
-& .\scp_def_desktop_fundo.ps1 -wallpaper $wallpaper
+& .\scp_def_desktop_fundo.ps1 -imagem $imagem_wallpaper
 Write-Host
-& .\scp_def_fundo_logon.ps1 -imagemCaminho $imagemCaminho
+& .\scp_def_fundo_logon.ps1 -imagem $imagem_fundo
 Write-Host
 & .\scp_def_desktop_versao.ps1
 Write-Host

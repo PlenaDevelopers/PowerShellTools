@@ -78,8 +78,8 @@ $endereco_pc = "Rua Oriente, 232"
 $perfil_usuario = $env:USERPROFILE
 $usuario_nome = 'Mega São José'
 $senha_anydesk = 'S@0J0se2024'
-$wallpaper = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
-$avatar = Join-Path -Path $PSScriptRoot -ChildPath "$pasta_wallpaper\avatar_dsj.jpg"
+$imagem_wallpaper = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
+$imagem_fundo = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
 
 Write-Host "╔" -NoNewline -ForegroundColor Magenta
 write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
@@ -135,9 +135,9 @@ Write-Host
 Write-Host
 & .\scp_def_barra_news.ps1
 Write-Host
-& .\scp_def_desktop_fundo.ps1 -wallpaper $wallpaper
+& .\scp_def_desktop_fundo.ps1 -imagem $imagem_wallpaper
 Write-Host
-& .\scp_def_fundo_logon.ps1 -imagemCaminho $imagemCaminho
+& .\scp_def_fundo_logon.ps1 -imagem $imagem_fundo
 Write-Host
 & .\scp_def_desktop_versao.ps1
 Write-Host
