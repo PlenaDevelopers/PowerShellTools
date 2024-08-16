@@ -39,7 +39,7 @@ function Remove-RegistryKeyContent {
 
         foreach ($subKey in $subKeys) {
             try {
-                Remove-Item -Path $subKey.PSPath -Recurse -Force
+                $null=Remove-Item -Path $subKey.PSPath -Recurse -Force
                 Write-Host "║" -NoNewline -ForegroundColor Cyan
                 Write-Host ("{0,-30} : " -f " Sucesso ao remover") -NoNewline
                 Write-Host ("{0,-86} " -f $subKey.PSPath) -NoNewline -ForegroundColor Green
@@ -69,12 +69,32 @@ $RegPath1 = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Accent"
 $RegPath2 = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\History\Colors"
 
 # Apagar o conteúdo das chaves de registro de cores
-Remove-RegistryKeyContent -keyPath $RegPath1
-Remove-RegistryKeyContent -keyPath $RegPath2
+$null=Remove-RegistryKeyContent -keyPath $RegPath1
+$null=Remove-RegistryKeyContent -keyPath $RegPath2
+#----------------------------------------------------------------------------------------------
 
-# Reiniciar O Windows Explorer
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-get-process explorer | Stop-Process -Force
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+    Start-Process explorer -WindowStyle Hidden
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
 #----------------------------------------------------------------------------------------------
 
 # Rodape

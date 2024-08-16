@@ -46,7 +46,6 @@ function Test-ServiceExists {
     }
 }
 
-# Exemplo de uso:
 $serviceName = "srservice"  # Substitua pelo nome do serviço desejado
 if (Test-ServiceExists -serviceName $serviceName) {
     # Tenta criar um ponto de restauração do sistema
@@ -71,9 +70,28 @@ if (Test-ServiceExists -serviceName $serviceName) {
 }
 #----------------------------------------------------------------------------------------------
 
-# Reiniciar O Windows Explorer
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-get-process explorer | Stop-Process -Force
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+    Start-Process explorer -WindowStyle Hidden
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
 #----------------------------------------------------------------------------------------------
 
 # Rodape

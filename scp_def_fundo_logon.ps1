@@ -41,7 +41,7 @@ Write-Host ("{0,-86} " -f "De $imagemCaminho para $destinoImagem") -NoNewline -F
 Write-Host "║" -ForegroundColor Cyan
 
 try {
-    Copy-Item -Path $imagemCaminho -Destination $destinoImagem -Force
+    $null=Copy-Item -Path $imagemCaminho -Destination $destinoImagem -Force
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Copia") -NoNewline
     Write-Host ("{0,-86} " -f "Imagem copiada com sucesso") -NoNewline -ForegroundColor Green
@@ -59,7 +59,7 @@ $regPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\PersonalizationCSP"
 
 # Verifica se o caminho do registro existe
 if (-not (Test-Path $regPath)) {
-    New-Item -Path $regPath -Force | Out-Null
+    $null=New-Item -Path $regPath -Force | Out-Null
 }
 
 # Define os valores no registro
@@ -69,9 +69,9 @@ Write-Host ("{0,-86} " -f "LockScreenImagePath, LockScreenImageUrl e LockScreenI
 Write-Host "║" -ForegroundColor Cyan
 
 try {
-    Set-ItemProperty -Path $regPath -Name "LockScreenImagePath" -Value $destinoImagem
-    Set-ItemProperty -Path $regPath -Name "LockScreenImageUrl" -Value $destinoImagem
-    Set-ItemProperty -Path $regPath -Name "LockScreenImageStatus" -Value 1
+    $null=Set-ItemProperty -Path $regPath -Name "LockScreenImagePath" -Value $destinoImagem
+    $null=Set-ItemProperty -Path $regPath -Name "LockScreenImageUrl" -Value $destinoImagem
+    $null=Set-ItemProperty -Path $regPath -Name "LockScreenImageStatus" -Value 1
 } catch {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Configuração") -NoNewline
@@ -103,31 +103,30 @@ try {
     Write-Host ("{0,-86} " -f "Falha ao ajustar permissões: $_") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
-
-# Desbloqueia a tela de configuração
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Desbloqueando Tela") -NoNewline -ForegroundColor Red
-Write-Host ("{0,-86} " -f "Desbloqueando a tela de configuração, se necessário") -NoNewline -ForegroundColor Red
-Write-Host "║" -ForegroundColor Cyan
-
-try {
-    # Reinicia o Windows Explorer para aplicar alterações e desbloquear configurações
-    Stop-Process -Name explorer -Force
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Tela") -NoNewline
-    Write-Host ("{0,-86} " -f "Tela desbloqueada") -NoNewline -ForegroundColor Green
-    Write-Host "║" -ForegroundColor Cyan
-} catch {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Tela") -NoNewline
-    Write-Host ("{0,-86} " -f "Falha ao desbloquear a tela: $_") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
 #----------------------------------------------------------------------------------------------
 
-# Reiniciar O Windows Explorer
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-get-process explorer | Stop-Process -Force
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+    Start-Process explorer -WindowStyle Hidden
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
 #----------------------------------------------------------------------------------------------
 
 # Rodape
