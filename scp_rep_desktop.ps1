@@ -1,28 +1,14 @@
 ﻿# Script para fazer backup dos ícones da "Área de Trabalho"
-# Cabeçalho
+# Cabecalho
 #----------------------------------------------------------------------------------------------
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╗" -ForegroundColor Cyan  
+# Obter o diretório do script atual
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Limpar Desktop") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
+& $CabecalhoScriptPath -Script $scriptName -Titulo "Reparar Desktop"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -44,27 +30,27 @@ $pastaAtalhosAntigos = Join-Path $pastaDesktop "Backup de Atalhos"
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Pasta") -NoNewline
-Write-Host ("{0,-86} " -f $pastaAtalhosAntigos) -NoNewline -ForegroundColor Green
+Write-Host ("{0,-86} " -f $pastaAtalhosAntigos) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 # Verificar se a pasta "Backup de Atalhos" existe, senão criar
 if (-not (Test-Path -Path $pastaAtalhosAntigos -PathType Container)) {
     $null = New-Item -Path $pastaAtalhosAntigos -ItemType Directory
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Pasta") -NoNewline
+    Write-Host ("{0,-30} : " -f "Status") -NoNewline
     Write-Host ("{0,-86} " -f "Criada") -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Green
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Pasta") -NoNewline
+    Write-Host ("{0,-30} : " -f "Status") -NoNewline
     Write-Host ("{0,-86} " -f "Já existia") -NoNewline -ForegroundColor Yellow
     Write-Host "║" -ForegroundColor Cyan
 }
 
 # Mover arquivos para a pasta "Backup de Atalhos"
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Tarefa") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Mover Arquivos") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Tarefa") -NoNewline -ForegroundColor White
+Write-Host ("{0,-86} " -f "Mover Arquivos") -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -73,21 +59,21 @@ Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Tipo de Arquivo") -NoNewline
-Write-Host ("{0,-86} " -f "Atalhos Locais") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f "Atalhos Locais (*.lnk)") -NoNewline -ForegroundColor white
 Write-Host "║" -ForegroundColor Cyan
 
 Get-ChildItem -Path "$pastaDesktop\*.lnk" | Move-Item -Destination $pastaAtalhosAntigos -Force
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Tipo de Arquivo") -NoNewline
-Write-Host ("{0,-86} " -f "Atalhos da Internet") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f "Atalhos da Internet (*.url)") -NoNewline -ForegroundColor white
 Write-Host "║" -ForegroundColor Cyan
 
 Get-ChildItem -Path "$pastaDesktop\*.url" | Move-Item -Destination $pastaAtalhosAntigos -Force
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Tipo de Arquivo") -NoNewline
-Write-Host ("{0,-86} " -f "Conexões RDP") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f "Conexões RDP (*.rdp)") -NoNewline -ForegroundColor white
 Write-Host "║" -ForegroundColor Cyan
 
 Get-ChildItem -Path "$pastaDesktop\*.rdp" | Move-Item -Destination $pastaAtalhosAntigos -Force
@@ -97,36 +83,15 @@ Get-ChildItem -Path "$pastaDesktop\*.rdp" | Move-Item -Destination $pastaAtalhos
 #----------------------------------------------------------------------------------------------
 # Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Verificar se o processo explorer está em execução
-$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
-
-if ($explorerProcess) {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Start-Process explorer -WindowStyle Hidden
-}
 #----------------------------------------------------------------------------------------------
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
 
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------------------------------

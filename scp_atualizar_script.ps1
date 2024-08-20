@@ -1,7 +1,7 @@
 ﻿# Cabecalho
 #----------------------------------------------------------------------------------------------
 $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
-& .\scp_axcript_cabecalho.ps1 -Script $scriptName -Titulo "Atualizar Scripts"
+& .\scp_script_cabecalho.ps1 -Script $scriptName -Titulo "Atualizar Scripts"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -67,30 +67,7 @@ function Download-Files {
 Download-Files -url "https://api.github.com/repos/$owner/$repo/contents?ref=$branch" -localDir $localPath
 #----------------------------------------------------------------------------------------------
 
-# Aplicando alterações
-#----------------------------------------------------------------------------------------------
-# Aplicar alterações
-rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Verificar se o processo explorer está em execução
-$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
-
-if ($explorerProcess) {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Start-Process explorer -WindowStyle Hidden
-}
-#----------------------------------------------------------------------------------------------
-
 # Rodape
 #----------------------------------------------------------------------------------------------
-& .\scp_axcript_rodape.ps1
+& .\scp_script_rodape.ps1
 #----------------------------------------------------------------------------------------------

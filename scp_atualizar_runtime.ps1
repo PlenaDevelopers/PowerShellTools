@@ -1,28 +1,15 @@
-﻿# Script para atualizar o Net. Framework
-# Cabeçalho
+﻿# Script para atualizar o Visual C Runtimes
+
+# Cabecalho
 #----------------------------------------------------------------------------------------------
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╗" -ForegroundColor Cyan  
+# Obter o diretório do script atual
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Atualizar") -NoNewline
-Write-Host ("{0,-86} " -f "Visual C+ Runtimes") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan
+& $CabecalhoScriptPath -Script $scriptName -Titulo "Atualizar Visual C Runtimes"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -35,26 +22,18 @@ $updatesDirectory = Join-Path $currentScriptDirectory "updates\visual_runtimes"
 $currentScriptPath = $MyInvocation.MyCommand.Path
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Diretorio das Atualizações") -NoNewline
+Write-Host ("{0,-30} : " -f "Diretorio das Atualizações") -NoNewline
 Write-Host ("{0,-86} "   -f $updatesDirectory) -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
+
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Tarefa") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} "   -f "Arquivo") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor White
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
-
 # Visual C 2005
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C 2005") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -64,7 +43,7 @@ if (Test-Path $vcredist2005Path) {
     Start-Process -FilePath $vcredist2005Path -ArgumentList "/q" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C 2005 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -72,7 +51,7 @@ if (Test-Path $vcredist2005Path) {
 # Visual C 2008
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C 2008") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -82,7 +61,7 @@ if (Test-Path $vcredist2008Path) {
     Start-Process -FilePath $vcredist2008Path -ArgumentList "/q" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C 2008 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -90,7 +69,7 @@ if (Test-Path $vcredist2008Path) {
 # Visual C 2010
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C 2010") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -100,7 +79,7 @@ if (Test-Path $vcredist2010Path) {
     Start-Process -FilePath $vcredist2010Path -ArgumentList "/q" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C 2010 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -108,7 +87,7 @@ if (Test-Path $vcredist2010Path) {
 # Visual C 2012
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C 2012") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -118,7 +97,7 @@ if (Test-Path $vcredist2012Path) {
     Start-Process -FilePath $vcredist2012Path -ArgumentList "/q" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C 2012 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -126,7 +105,7 @@ if (Test-Path $vcredist2012Path) {
 # Visual C 2013
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C 2013") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -136,7 +115,7 @@ if (Test-Path $vcredist2013Path) {
     Start-Process -FilePath $vcredist2013Path -ArgumentList "/q" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C 2013 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -144,7 +123,7 @@ if (Test-Path $vcredist2013Path) {
 # Visual C 2015 / 2017 / 2019 / 2022
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C 2015 / 2017 / 2019 / 2022") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -154,7 +133,7 @@ if (Test-Path $vcredist2015_2022Path) {
     Start-Process -FilePath $vcredist2015_2022Path -ArgumentList "/q" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C 2015 / 2017 / 2019 / 2022 não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -162,7 +141,7 @@ if (Test-Path $vcredist2015_2022Path) {
 # Visual C Universal
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Instalando") -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "Visual C Universal") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
@@ -172,7 +151,7 @@ if (Test-Path $visualCUniversalPath) {
     Start-Process -FilePath $visualCUniversalPath -ArgumentList "/quiet" -Wait
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
     Write-Host ("{0,-86} " -f "Visual C Universal não encontrado no diretório.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -180,38 +159,16 @@ if (Test-Path $visualCUniversalPath) {
 
 # Aplicando alterações
 #----------------------------------------------------------------------------------------------
-# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Verificar se o processo explorer está em execução
-$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
-
-if ($explorerProcess) {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Start-Process explorer -WindowStyle Hidden
-}
 #----------------------------------------------------------------------------------------------
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
 
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------------------------------

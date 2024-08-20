@@ -3,31 +3,16 @@ Param (
     [string]$ProductKey = "XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99" # Chave padrão
 )
 
-# Cabeçalho
+# Cabecalho
 #----------------------------------------------------------------------------------------------
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╗" -ForegroundColor Cyan  
+# Obter o diretório do script atual
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Ativar Microsoft Office") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
-
+& $CabecalhoScriptPath -Script $scriptName -Titulo "Ativar Microsoft Office"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -42,7 +27,7 @@ if (Test-Path $Office64Path) {
     Set-Location -Path $Office64Path
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f "Diretório do Office(x64)") -NoNewline
-    Write-Host ("{0,-86} " -f $Office64Path) -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-86} " -f $Office64Path) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 }
 # Verificando se o diretório do Office 32 bits existe
@@ -50,7 +35,7 @@ elseif (Test-Path $Office32Path) {
     Set-Location -Path $Office32Path
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f "Diretório do Office(x86)") -NoNewline
-    Write-Host ("{0,-86} " -f $Office32Path) -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-86} " -f $Office32Path) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 }
 else {
@@ -80,7 +65,7 @@ Write-Host "║" -ForegroundColor Cyan
 Get-ChildItem -Path "..\root\Licenses16" -Filter "proplusvl_kms*.xrm-ms" | ForEach-Object {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f "Executando") -NoNewline
-    Write-Host ("{0,-86} " -f $($_.FullName)) -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-86} " -f $($_.FullName)) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
     $null = & cscript ospp.vbs /inslic:"$($_.FullName)"
 }
@@ -88,7 +73,7 @@ Get-ChildItem -Path "..\root\Licenses16" -Filter "proplusvl_kms*.xrm-ms" | ForEa
 # Inserindo a chave de produto
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Chave") -NoNewline
-Write-Host ("{0,-86} " -f $ProductKey) -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f $ProductKey) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 $null=& cscript ospp.vbs /inpkey:$ProductKey
 
@@ -97,7 +82,7 @@ $OldKeys = @("BTDRB", "KHGM9", "CPQVG")
 foreach ($Key in $OldKeys) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f "Remover chave") -NoNewline
-    Write-Host ("{0,-86} " -f $Key) -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-86} " -f $Key) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
     & cscript ospp.vbs /unpkey:$Key > $null
 }
@@ -108,11 +93,12 @@ $KmsPort = 1688
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Servidor KMS") -NoNewline
-Write-Host ("{0,-86} " -f $KmsServer) -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f $KmsServer) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Porta KMS") -NoNewline
-Write-Host ("{0,-86} " -f $KmsPort) -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f $KmsPort) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 $null = & cscript ospp.vbs /sethst:$KmsServer
@@ -120,8 +106,9 @@ $null = & cscript ospp.vbs /setprt:$KmsPort
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Ativando") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f "Ativando") -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
+
 $null = & cscript ospp.vbs /act
 
 # Verificando se o Office está ativado
@@ -153,36 +140,15 @@ if ($ActivationStatus -match "LICENSE STATUS:  ---LICENSED---") {
 #----------------------------------------------------------------------------------------------
 # Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Verificar se o processo explorer está em execução
-$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
-
-if ($explorerProcess) {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Start-Process explorer -WindowStyle Hidden
-}
 #----------------------------------------------------------------------------------------------
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
 
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------------------------------

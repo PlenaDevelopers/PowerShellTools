@@ -1,39 +1,25 @@
 ﻿# Script para definr o acesso remoto do Anydesk
 param (
-    [string]$UnattendedPassword = 'P@ssw0rd2024'
+    [string]$Senha = 'P@ssw0rd2024'
 )
 
-# Cabeçalho
+# Cabecalho
 #----------------------------------------------------------------------------------------------
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╗" -ForegroundColor Cyan
+# Obter o diretório do script atual
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Configurar") -NoNewline 
-Write-Host ("{0,-86} " -f "Anydesk") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan
+& $CabecalhoScriptPath -Script $scriptName -Titulo "Definir acesso do Anydesk"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Senha") -NoNewline
-Write-Host ("{0,-86} " -f $UnattendedPassword) -NoNewline -ForegroundColor White
+Write-Host ("{0,-30} : " -f "Senha") -NoNewline
+Write-Host ("{0,-86} " -f $Senha) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 # Função para verificar se o AnyDesk está instalado
@@ -61,8 +47,8 @@ function Set-AnyDeskPassword {
     # Executando o comando
     Invoke-Expression $command
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Status") -NoNewline
-    Write-Host ("{0,-86} " -f "Senha de acesso não configurada com sucesso.") -NoNewline -ForegroundColor White
+    Write-Host ("{0,-30} : " -f "Status") -NoNewline
+    Write-Host ("{0,-86} " -f "Senha de acesso não supervisionado configurada com sucesso.") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 
 }
@@ -78,8 +64,8 @@ function Set-AnyDeskPermissions {
     # Executando o comando
     Invoke-Expression $command
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Status") -NoNewline
-    Write-Host ("{0,-86} " -f "Perfil de acesso não configurada com sucesso.") -NoNewline -ForegroundColor White
+    Write-Host ("{0,-30} : " -f "Status") -NoNewline
+    Write-Host ("{0,-86} " -f "Perfil de acesso não supervisionado configurada com sucesso.") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 }
 
@@ -88,10 +74,10 @@ if (Test-AnyDeskInstallation) {
     # Configurando as permissões de acesso não supervisionado
     Set-AnyDeskPermissions
     # Definindo a senha de acesso não supervisionado
-    Set-AnyDeskPassword -password $UnattendedPassword
+    Set-AnyDeskPassword -password $Senha
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Status") -NoNewline
+    Write-Host ("{0,-30} : " -f "Status") -NoNewline
     Write-Host ("{0,-86} " -f "AnyDesk não está instalado neste sistema.") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -101,36 +87,15 @@ if (Test-AnyDeskInstallation) {
 #----------------------------------------------------------------------------------------------
 # Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
-
-# Verificar se o processo explorer está em execução
-$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
-
-if ($explorerProcess) {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
-    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
-    Write-Host "║" -ForegroundColor Cyan
-    Start-Process explorer -WindowStyle Hidden
-}
 #----------------------------------------------------------------------------------------------
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
 
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------------------------------
