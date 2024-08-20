@@ -97,7 +97,7 @@ $arquivo_fundo_logon = "$PSScriptRoot\wallpaper\wallpaper_marzzallo.jpg"
 #----------------------------------------------------------------------------------------------
 $rdpItems = @(
     @{ "nome_arquivo_rdp" = "Marzzallo (W-Server).rdp"; "rdp_server" = "192.168.100.154" },
-    @{ "nome_arquivo_rdp" = "Marzzallo (T-Server).rdp"; "rdp_server" = "192.168.100.155" },
+    @{ "nome_arquivo_rdp" = "Marzzallo (T-Server).rdp"; "rdp_server" = "192.168.100.155" }
 )
 #----------------------------------------------------------------------------------------------
 
