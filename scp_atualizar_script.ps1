@@ -20,7 +20,11 @@ $localPath = $currentScriptDirectory
 
 # Cria o diretório se não existir
 if (-not (Test-Path $localPath)) {
-    New-Item -ItemType Directory -Path $localPath -Force
+    $null=New-Item -ItemType Directory -Path $localPath -Force
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Diretorio") -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-86} " -f $localPath) -NoNewline -ForegroundColor Green
+    Write-Host "║" -ForegroundColor Cyan
 }
 
 # Função para baixar arquivos recursivamente
@@ -38,7 +42,11 @@ function Download-Files {
             # Se for uma pasta, cria a pasta local e chama a função recursivamente
             $newLocalDir = Join-Path $localDir $item.name
             if (-not (Test-Path $newLocalDir)) {
-                New-Item -ItemType Directory -Path $newLocalDir -Force
+                $null=New-Item -ItemType Directory -Path $newLocalDir -Force
+                Write-Host "║" -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f " Diretorio") -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-86} " -f $newLocalDir) -NoNewline -ForegroundColor Green
+                Write-Host "║" -ForegroundColor Cyan
             }
             Download-Files -url $item._links.self -localDir $newLocalDir
         } elseif ($item.type -eq "file") {

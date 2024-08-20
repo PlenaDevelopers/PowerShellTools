@@ -42,8 +42,6 @@ $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
 
 $regAliases = @("HKLM", "HKCU")
 
-
-
 # Atribuir o layout do menu Iniciar e forçar a aplicação com "LockedStartLayout" em ambos os níveis, máquina e usuário
 foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
@@ -76,7 +74,7 @@ foreach ($regAlias in $regAliases){
 # Reiniciar o Explorer, abrir o menu iniciar (necessário para carregar o novo layout) e aguardar alguns segundos para processar
 Stop-Process -name explorer
 Start-Sleep -s 5
-$wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
+#$wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
 
 # Habilitar a capacidade de fixar itens novamente desativando "LockedStartLayout"
 foreach ($regAlias in $regAliases){
