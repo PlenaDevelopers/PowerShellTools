@@ -112,7 +112,7 @@ $CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 # Atualizar Scripts
 #----------------------------------------------------------------------
 $CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_atualizar_script.ps1"
-#& $CabecalhoScriptPath
+& $CabecalhoScriptPath
 #----------------------------------------------------------------------
 Write-Host
 
