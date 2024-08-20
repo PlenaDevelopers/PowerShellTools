@@ -112,22 +112,33 @@ foreach ($prop in $properties) {
         if (Test-Path $regPath) {
             # Verificar se o valor existe
             if (Get-ItemProperty -Path $regPath -Name $prop.Name -ErrorAction SilentlyContinue) {
-                Write-Host ("Alterando Valor : {0}" -f $prop.Name) -ForegroundColor Green
+                Write-Host "║" -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Alterando Valor") -NoNewline -ForegroundColor Yellow
+                Write-Host ("{0,-86} " -f $prop.Name) -NoNewline -ForegroundColor Red
+                Write-Host "║" -ForegroundColor Cyan
                 
                 if ($prop.Type -eq "DWord") {
-                    Set-ItemProperty -Path $regPath -Name $prop.Name -Value [UInt32]$prop.Value -Type DWord -Force
+                    $null=Set-ItemProperty -Path $regPath -Name $prop.Name -Value [UInt32]$prop.Value -Type DWord -Force
                 } elseif ($prop.Type -eq "String") {
-                    Set-ItemProperty -Path $regPath -Name $prop.Name -Value $prop.Value -Type String -Force
+                    $null=Set-ItemProperty -Path $regPath -Name $prop.Name -Value $prop.Value -Type String -Force
                 }
             } else {
-                Write-Host ("Valor não encontrado para alteração : {0}" -f $prop.Name) -ForegroundColor Yellow
+                Write-Host "║" -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Status") -NoNewline -ForegroundColor Yellow
+                Write-Host ("{0,-86} " -f "Valor não encontrado para alteração") -NoNewline -ForegroundColor Red
+                Write-Host "║" -ForegroundColor Cyan
             }
         } else {
-            Write-Host ("Chave de registro não encontrada : {0}" -f $regPath) -ForegroundColor Red
+                Write-Host "║" -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Status") -NoNewline -ForegroundColor Yellow
+                Write-Host ("{0,-86} " -f "Chave de registro não encontrada") -NoNewline -ForegroundColor Red
+                Write-Host "║" -ForegroundColor Cyan
         }
     } catch {
-        Write-Host ("Falha ao alterar valor : {0}" -f $prop.Name) -ForegroundColor Red
-        Write-Host ("Erro: {0}" -f $_.Exception.Message) -ForegroundColor Red
+                Write-Host "║" -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Status") -NoNewline -ForegroundColor Yellow
+                Write-Host ("{0,-86} " -f "Falha ao alterar valor") -NoNewline -ForegroundColor Red
+                Write-Host "║" -ForegroundColor Cyan
     }
 }
 #----------------------------------------------------------------------------------------------

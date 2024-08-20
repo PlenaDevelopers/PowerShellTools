@@ -66,13 +66,22 @@ if (Test-Path -Path "D:\") {
             Write-Host "║" -ForegroundColor Cyan
 
         } else {
-            Write-Host "A unidade D: não é um disco rígido interno ou não é a unidade D:."
+            Write-Host "║" -NoNewline -ForegroundColor Cyan
+            Write-Host ("{0,-30} : " -f "Status") -NoNewline
+            Write-Host ("{0,-86} " -f "A unidade D: não é um disco rígido interno") -NoNewline -ForegroundColor Red
+            Write-Host "║" -ForegroundColor Cyan
         }
     } catch {
-        Write-Host "Erro ao obter informações sobre a unidade D: $_"
+            Write-Host "║" -NoNewline -ForegroundColor Cyan
+            Write-Host ("{0,-30} : " -f "Status") -NoNewline
+            Write-Host ("{0,-86} " -f "Erro ao obter informações sobre a unidade D:") -NoNewline -ForegroundColor Red
+            Write-Host "║" -ForegroundColor Cyan
     }
 } else {
-    Write-Host "A unidade D: não existe no computador."
+            Write-Host "║" -NoNewline -ForegroundColor Cyan
+            Write-Host ("{0,-30} : " -f "Status") -NoNewline
+            Write-Host ("{0,-86} " -f "A unidade D: não existe no computador:") -NoNewline -ForegroundColor Red
+            Write-Host "║" -ForegroundColor Cyan
 }
 #----------------------------------------------------------------------------------------------
 
