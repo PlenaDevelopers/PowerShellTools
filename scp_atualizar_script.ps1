@@ -1,28 +1,7 @@
-﻿Clear
-# Cabeçalho
+﻿# Cabecalho
 #----------------------------------------------------------------------------------------------
-Write-Host "╔" -NoNewline -ForegroundColor Yellow
-write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
-write-host "╗" -ForegroundColor Yellow  
-
-Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f " Iniciar") -NoNewline
-Write-Host ("{0,-86} " -f "Script de Download") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+& .\scp_axcript_cabecalho.ps1 -Script $scriptName -Titulo "Atualizar Scripts"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -90,15 +69,5 @@ Download-Files -url "https://api.github.com/repos/$owner/$repo/contents?ref=$bra
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╝" -ForegroundColor Cyan
+& .\scp_axcript_rodape.ps1
+#----------------------------------------------------------------------------------------------

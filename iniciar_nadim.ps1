@@ -44,12 +44,19 @@ $altura = [System.Console]::WindowHeight
 # Move a janela do console
 [ConsoleUtils]::SetWindowPos($hWnd, [ConsoleUtils]::HWND_TOP, $x, $y, 0, 0, [ConsoleUtils]::SWP_NOSIZE -bor [ConsoleUtils]::SWP_NOZORDER)
 
-
-Write-Host "╔" -NoNewline -ForegroundColor Yellow
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Yellow -BackgroundColor Black
 write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╗" -ForegroundColor Yellow  
+
 Write-Host "║" -NoNewline -ForegroundColor Yellow
 Write-Host ("{0,-30} : " -f " Iniciar") -NoNewline
+Write-Host ("{0,-86} " -f "Script de configuração") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Yellow
+
+Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-30} : " -f " Cliente Mega São José") -NoNewline
 Write-Host ("{0,-86} " -f "Script de configuração") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
@@ -72,48 +79,22 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╚" -NoNewline -ForegroundColor Yellow
 write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╝" -ForegroundColor Yellow
+#----------------------------------------------------------------------------------------------
 
+# Parametros
+#----------------------------------------------------------------------------------------------
 $nome_pc = "nadim-01"
 $endereco_pc = "Rua Oriente, 562"
 $perfil_usuario = $env:USERPROFILE
 $usuario_nome = 'Casa Nadim'
 $chave_windows = "W269N-WFGWX-YVC9B-4J6C9-T83GX"
 $senha_anydesk = 'N@dim2024'
-$wallpaper = "$PSScriptRoot\wallpaper\wallpaper_casa_nadim.jpg"
-$avatar = Join-Path -Path $PSScriptRoot -ChildPath "$pasta_wallpaper\avatar_dsj.jpg"
+$arquivo_wallpaper = "$PSScriptRoot\wallpaper\wallpaper_casa_nadim.jpg"
+$arquivo_fundo = "$PSScriptRoot\wallpaper\wallpaper_casa_nadim.jpg"
+#----------------------------------------------------------------------------------------------
 
-Write-Host "╔" -NoNewline -ForegroundColor Magenta
-write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
-write-host "╗" -ForegroundColor Magenta  
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Nome do Computador") -NoNewline
-Write-Host ("{0,-86} " -f $nome_pc) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Endereço do Computador") -NoNewline
-Write-Host ("{0,-86} " -f $endereco_pc) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Nome do arquivo RDP") -NoNewline
-Write-Host ("{0,-86} " -f $nome_arquivo_rdp) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Servidor RDP") -NoNewline
-Write-Host ("{0,-86} " -f $rdp_server) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Perfil do Usuário") -NoNewline
-Write-Host ("{0,-86} " -f $perfil_usuario) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Papel de Parede") -NoNewline
-Write-Host ("{0,-86} " -f $wallpaper) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "╚" -NoNewline -ForegroundColor Magenta
-write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
-write-host "╝" -ForegroundColor Magenta
-
-
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 & .\scp_atualizar_script.ps1
 Write-Host
 & .\scp_rep_desktop.ps1
@@ -195,3 +176,19 @@ Write-Host
 & .\scp_ativar_windows.ps1
 Write-Host
 & .\scp_ativar_Office.ps1
+#----------------------------------------------------------------------------------------------
+
+# Rodape
+#----------------------------------------------------------------------------------------------
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╚" -NoNewline -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

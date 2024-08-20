@@ -44,12 +44,19 @@ $altura = [System.Console]::WindowHeight
 # Move a janela do console
 [ConsoleUtils]::SetWindowPos($hWnd, [ConsoleUtils]::HWND_TOP, $x, $y, 0, 0, [ConsoleUtils]::SWP_NOSIZE -bor [ConsoleUtils]::SWP_NOZORDER)
 
-
-Write-Host "╔" -NoNewline -ForegroundColor Yellow
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Yellow -BackgroundColor Black
 write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╗" -ForegroundColor Yellow  
+
 Write-Host "║" -NoNewline -ForegroundColor Yellow
 Write-Host ("{0,-30} : " -f " Iniciar") -NoNewline
+Write-Host ("{0,-86} " -f "Script de configuração") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Yellow
+
+Write-Host "║" -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-30} : " -f " Cliente Mega São José") -NoNewline
 Write-Host ("{0,-86} " -f "Script de configuração") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
@@ -72,39 +79,20 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "╚" -NoNewline -ForegroundColor Yellow
 write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╝" -ForegroundColor Yellow
+#----------------------------------------------------------------------------------------------
 
+# Parametros
+#----------------------------------------------------------------------------------------------
 $nome_pc = "server-hv"
 $endereco_pc = "Rua Oriente, 232"
-$perfil_usuario = $env:USERPROFILE
 $usuario_nome = 'Mega São José'
 $senha_anydesk = 'S@0J0se2024'
-$wallpaper = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
-$avatar = Join-Path -Path $PSScriptRoot -ChildPath "$pasta_wallpaper\avatar_dsj.jpg"
+$arquivo_wallpaper = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
+$arquivo_fundo = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
+#----------------------------------------------------------------------------------------------
 
-Write-Host "╔" -NoNewline -ForegroundColor Magenta
-write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
-write-host "╗" -ForegroundColor Magenta  
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Nome do Computador") -NoNewline
-Write-Host ("{0,-86} " -f $nome_pc) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Endereço do Computador") -NoNewline
-Write-Host ("{0,-86} " -f $endereco_pc) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Perfil do Usuário") -NoNewline
-Write-Host ("{0,-86} " -f $perfil_usuario) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "║" -NoNewline -ForegroundColor Magenta
-Write-Host ("{0,-30} : " -f " Papel de Parede") -NoNewline
-Write-Host ("{0,-86} " -f $wallpaper) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Magenta
-Write-Host "╚" -NoNewline -ForegroundColor Magenta
-write-host ("═" * 120) -NoNewline -ForegroundColor Magenta
-write-host "╝" -ForegroundColor Magenta
-
-
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 & .\scp_atualizar_script.ps1
 Write-Host
 & .\scp_rep_desktop.ps1
@@ -186,3 +174,19 @@ Write-Host
 & .\scp_ativar_windows.ps1
 Write-Host
 & .\scp_ativar_Office.ps1
+#----------------------------------------------------------------------------------------------
+
+# Rodape
+#----------------------------------------------------------------------------------------------
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╚" -NoNewline -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╝" -ForegroundColor Cyan

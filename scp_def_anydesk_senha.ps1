@@ -7,10 +7,10 @@ param (
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╗" -ForegroundColor Cyan  
+write-host "╗" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Configurar") -NoNewline
+Write-Host ("{0,-30} : " -f " Configurar") -NoNewline 
 Write-Host ("{0,-86} " -f "Anydesk") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
@@ -101,7 +101,7 @@ if (Test-AnyDeskInstallation) {
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+Write-Host "╣" -ForegroundColor Cyan
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
