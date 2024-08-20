@@ -51,28 +51,28 @@ write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
 write-host "╗" -ForegroundColor Yellow  
 
 Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f " Iniciar") -NoNewline
+Write-Host ("{0,-30} : " -f "Iniciar") -NoNewline
 Write-Host ("{0,-86} " -f "Script de configuração") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
 Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f " Cliente Mega São José") -NoNewline
-Write-Host ("{0,-86} " -f "Script de configuração") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-30} : " -f "Cliente") -NoNewline
+Write-Host ("{0,-86} " -f "Marzzallo Presentes") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
 Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
+Write-Host ("{0,-30} : " -f "Copyright") -NoNewline
 Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Script") -NoNewline
+Write-Host ("{0,-30} : " -f "Script") -NoNewline
 Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 $computerName = (Get-ComputerInfo).CsName
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Computador") -NoNewline
+Write-Host ("{0,-30} : " -f "Computador") -NoNewline
 Write-Host ("{0,-86} " -f $computerName) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
@@ -439,9 +439,9 @@ if ($explorerProcess) {
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+Write-Host "╔" -NoNewline -ForegroundColor Yellow -BackgroundColor Black
+write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
+write-host "╗" -ForegroundColor Yellow  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Processo") -NoNewline -ForegroundColor Cyan

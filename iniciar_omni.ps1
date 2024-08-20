@@ -57,7 +57,7 @@ Write-Host "║" -ForegroundColor Yellow
 
 Write-Host "║" -NoNewline -ForegroundColor Yellow
 Write-Host ("{0,-30} : " -f "Cliente") -NoNewline
-Write-Host ("{0,-86} " -f "Mega São José") -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f "Omni Brasil") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Yellow
 
 Write-Host "║" -NoNewline -ForegroundColor Yellow
@@ -438,9 +438,9 @@ if ($explorerProcess) {
 
 # Rodape
 #----------------------------------------------------------------------------------------------
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan  
+Write-Host "╔" -NoNewline -ForegroundColor Yellow -BackgroundColor Black
+write-host ("═" * 120) -NoNewline -ForegroundColor Yellow
+write-host "╗" -ForegroundColor Yellow  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Processo") -NoNewline -ForegroundColor Cyan
