@@ -90,7 +90,7 @@ $usuario_nome = 'Mega São José'
 $senha_anydesk = 'S@0J0se2024'
 
 $arquivo_wallpaper = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
-$arquivo_fundo = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
+$arquivo_fundo_logon = "$PSScriptRoot\wallpaper\wallpaper_dsj.jpg"
 #----------------------------------------------------------------------------------------------
 
 # Servidores de Terminal
@@ -365,7 +365,7 @@ Write-Host
 
 # Definir agrupamentode ícones no deskto
 #----------------------------------------------------------------------
-$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_desktop_autoarrange.ps1"
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_desktop_autoarrage.ps1"
 & $CabecalhoScriptPath -nome_pc $nome_pc
 #----------------------------------------------------------------------
 Write-Host

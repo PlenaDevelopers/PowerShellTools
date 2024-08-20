@@ -45,168 +45,94 @@ if ($acao -eq "1") {
     exit
 }
 
-# Defina os valores do Registro
+# Defina o caminho da chave de registro
 $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds"
 
-# Remover a chave de registro existente
+# Verifique se a chave de registro existe
 if (Test-Path $regPath) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Apagar") -NoNewline -ForegroundColor White
+    Write-Host ("{0,-30} : " -f "Apagar valores") -NoNewline -ForegroundColor White
     Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor Cyan
     Write-Host "║" -ForegroundColor Cyan
-    Remove-Item -Path $regPath -Recurse -Force
+
+    # Obtenha todos os valores dentro da chave de registro
+    $values = Get-ItemProperty -Path $regPath | Select-Object -Property * -ExcludeProperty PSPath, PSParentPath, PSChildName, PSDrive, PSProvider
+
+    # Remova cada valor individualmente
+    foreach ($value in $values.PSObject.Properties.Name) {
+        Remove-ItemProperty -Path $regPath -Name $value -Force
+    }
+    
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Valores apagados") -NoNewline -ForegroundColor White
+    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Chave não encontrada") -NoNewline -ForegroundColor Yellow
+    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor Red
+    Write-Host "║" -ForegroundColor Cyan
 }
 
-# Criar a chave de registro e definir os valores
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Chave") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
-$null=New-Item -Path $regPath -Force | Out-Null
+# Defina o caminho da chave de registro
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Feeds"
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ShellFeedsTaskbarViewMode") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ShellFeedsTaskbarViewMode" -Value $shellFeedsTaskbarViewMode -PropertyType DWord -Force | Out-Null
+$properties = @(
+    @{Name="ShellFeedsTaskbarViewMode"; Value=$shellFeedsTaskbarViewMode; Type="DWord"}
+    @{Name="DeviceTier"; Value=2; Type="DWord"}
+    @{Name="DeviceSSD"; Value=1; Type="DWord"}
+    @{Name="DeviceMemory"; Value=32; Type="DWord"}
+    @{Name="DeviceProcessor"; Value=6; Type="DWord"}
+    @{Name="EdgeHandoffOnboardingComplete"; Value=0; Type="DWord"}
+    @{Name="osLocale"; Value="pt-BR"; Type="String"}
+    @{Name="IsAnaheimEdgeInstalled"; Value=1; Type="DWord"}
+    @{Name="IsFeedsAvailable"; Value=1; Type="DWord"}
+    @{Name="IsEnterpriseDevice"; Value=0; Type="DWord"}
+    @{Name="HeadlinesOnboardingComplete"; Value=1; Type="DWord"}
+    @{Name="EnShellFeedsTaskbarViewMode"; Value=$enShellFeedsTaskbarViewMode; Type="DWord"}
+    @{Name="UnpinReason"; Value=0; Type="DWord"}
+    @{Name="UnpinTimestamp"; Value=(Get-Date).ToString("yyyy-MM-ddTHH-mm-ss"); Type="String"}
+    @{Name="ShellFeedsTaskbarPreviousViewMode"; Value=1; Type="DWord"}
+    @{Name="IsLocationTurnedOn"; Value=0; Type="DWord"}
+    @{Name="IsEdgeUser"; Value=1; Type="DWord"}
+    @{Name="ActiveMUID"; Value="3F9B855219DA691707B6919718CE686F"; Type="String"}
+    @{Name="ActiveId"; Value="0de1b966b88745cd"; Type="String"}
+    @{Name="ActiveAccountId"; Value="00060000813C9381"; Type="String"}
+    @{Name="ActiveAuthority"; Value="consumers"; Type="String"}
+    @{Name="ActiveProfileName"; Value="Pessoal"; Type="String"}
+    @{Name="ActiveProfileInError"; Value=0; Type="DWord"}
+    @{Name="ActiveProfileId"; Value="A1B2C3D4"; Type="String"}
+)
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "DeviceTier") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "DeviceTier" -Value 2 -PropertyType DWord -Force | Out-Null
+foreach ($prop in $properties) {
+    try {
+        Write-Host ("Verificando Valor : {0}" -f $prop.Name) -ForegroundColor Green
+        
+        # Verificar se a chave de registro existe
+        if (Test-Path $regPath) {
+            # Verificar se o valor existe
+            if (Get-ItemProperty -Path $regPath -Name $prop.Name -ErrorAction SilentlyContinue) {
+                Write-Host ("Alterando Valor : {0}" -f $prop.Name) -ForegroundColor Green
+                
+                if ($prop.Type -eq "DWord") {
+                    Set-ItemProperty -Path $regPath -Name $prop.Name -Value [UInt32]$prop.Value -Type DWord -Force
+                } elseif ($prop.Type -eq "String") {
+                    Set-ItemProperty -Path $regPath -Name $prop.Name -Value $prop.Value -Type String -Force
+                }
+            } else {
+                Write-Host ("Valor não encontrado para alteração : {0}" -f $prop.Name) -ForegroundColor Yellow
+            }
+        } else {
+            Write-Host ("Chave de registro não encontrada : {0}" -f $regPath) -ForegroundColor Red
+        }
+    } catch {
+        Write-Host ("Falha ao alterar valor : {0}" -f $prop.Name) -ForegroundColor Red
+        Write-Host ("Erro: {0}" -f $_.Exception.Message) -ForegroundColor Red
+    }
+}
+#----------------------------------------------------------------------------------------------
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "DeviceSSD") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "DeviceSSD" -Value 1 -PropertyType DWord -Force | Out-Null
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "DeviceMemory") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "DeviceMemory" -Value 32 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "DeviceProcessor") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "DeviceProcessor" -Value 6 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "EdgeHandoffOnboardingComplete") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "EdgeHandoffOnboardingComplete" -Value 0 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "osLocale") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "osLocale" -Value "pt-BR" -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "IsAnaheimEdgeInstalled") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "IsAnaheimEdgeInstalled" -Value 1 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "IsFeedsAvailable") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "IsFeedsAvailable" -Value 1 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "IsEnterpriseDevice") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "IsEnterpriseDevice" -Value 0 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "HeadlinesOnboardingComplete") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "HeadlinesOnboardingComplete" -Value 1 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "EnShellFeedsTaskbarViewMode") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "EnShellFeedsTaskbarViewMode" -Value $enShellFeedsTaskbarViewMode -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "UnpinReason") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "UnpinReason" -Value 0 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "UnpinTimestamp") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "UnpinTimestamp" -Value (Get-Date).ToString("yyyy-MM-ddTHH-mm-ss") -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ShellFeedsTaskbarPreviousViewMode") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ShellFeedsTaskbarPreviousViewMode" -Value 1 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "IsLocationTurnedOn") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "IsLocationTurnedOn" -Value 0 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "IsEdgeUser") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "IsEdgeUser" -Value 1 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveMUID") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveMUID" -Value "3F9B855219DA691707B6919718CE686F" -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveId") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveId" -Value "0de1b966b88745cd" -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveAccountId") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveAccountId" -Value "00060000813C9381" -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveAuthority") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveAuthority" -Value "consumers" -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveProfileName") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveProfileName" -Value "Pessoal" -PropertyType String -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveProfileInError") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveProfileInError" -Value 0 -PropertyType DWord -Force | Out-Null
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Criando Valor") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "ActiveProfileId") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-$null=New-ItemProperty -Path $regPath -Name "ActiveProfileId" -Value "Default" -PropertyType String -Force | Out-Null
 #----------------------------------------------------------------------------------------------
 
 # Aplicando alterações
