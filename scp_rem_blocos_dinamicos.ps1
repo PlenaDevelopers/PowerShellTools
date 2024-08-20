@@ -47,7 +47,7 @@ If(Test-Path $layoutFile)
     Write-Host ("{0,-30} : " -f " Remover Arquivo") -NoNewline
     Write-Host ("{0,-86} " -f $layoutFile) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
-    Remove-Item $layoutFile
+    $null=Remove-Item $layoutFile
 }
 
 # Criar o arquivo de layout em branco
@@ -55,33 +55,34 @@ $START_MENU_LAYOUT | Out-File $layoutFile -Encoding ASCII
 
 $regAliases = @("HKLM", "HKCU")
 
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Usando a Chave") -NoNewline
-Write-Host ("{0,-86} " -f $keyPath) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
+
 
 # Atribuir o layout do menu Iniciar e forçar a aplicação com "LockedStartLayout" em ambos os níveis, máquina e usuário
 foreach ($regAlias in $regAliases){
     $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
     $keyPath = $basePath + "\Explorer" 
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Usando a Chave") -NoNewline
+    Write-Host ("{0,-86} " -f $keyPath) -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
     IF(!(Test-Path -Path $keyPath)) { 
         Write-Host "║" -NoNewline -ForegroundColor Cyan
         Write-Host ("{0,-30} : " -f " Criar Chave") -NoNewline
         Write-Host ("{0,-86} " -f $basePath) -NoNewline -ForegroundColor White
         Write-Host "║" -ForegroundColor Cyan
-        New-Item -Path $basePath -Name "Explorer"
+        $null=New-Item -Path $basePath -Name "Explorer"
     }
         Write-Host "║" -NoNewline -ForegroundColor Cyan
         Write-Host ("{0,-30} : " -f " Criar Valor") -NoNewline
         Write-Host ("{0,-86} " -f "LockedStartLayout = 1") -NoNewline -ForegroundColor White
         Write-Host "║" -ForegroundColor Cyan
-        Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
+        $null=Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
     
         Write-Host "║" -NoNewline -ForegroundColor Cyan
         Write-Host ("{0,-30} : " -f " Criar Valor") -NoNewline
         Write-Host ("{0,-86} " -f $layoutFile) -NoNewline -ForegroundColor White
         Write-Host "║" -ForegroundColor Cyan
-        Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
+        $null=Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value $layoutFile
 }
 
 # Reiniciar o Explorer, abrir o menu iniciar (necessário para carregar o novo layout) e aguardar alguns segundos para processar
@@ -97,14 +98,34 @@ foreach ($regAlias in $regAliases){
     Write-Host ("{0,-30} : " -f " Criar Valor") -NoNewline
     Write-Host ("{0,-86} " -f "LockedStartLayout = 0") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
-    Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
+    $null=Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
 }
-
-# Reiniciar o Explorer e remover o arquivo de layout
-Stop-Process -name explorer
 #----------------------------------------------------------------------------------------------
 
-# Rodapé
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
+#----------------------------------------------------------------------------------------------
+
+# Rodape
 #----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan

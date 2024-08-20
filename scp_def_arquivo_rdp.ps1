@@ -1,4 +1,5 @@
-﻿param (
+﻿# Script para gerar arquivos "Remote Desktop"
+param (
     [string]$nome_arquivo_rdp = "Teste.rdp",
     [string]$rdp_server = "192.168.100.100"
     )
@@ -108,9 +109,29 @@ else {
     Write-Host ("{0,-86} " -f "Não pode ser criado ") -NoNewline -ForegroundColor Cyan
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
 
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
 
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
 #----------------------------------------------------------------------------------------------
 
 # Rodape

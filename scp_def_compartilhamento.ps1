@@ -1,4 +1,5 @@
-﻿# Cabeçalho
+﻿# Script para compartilhar pasta
+# Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
@@ -143,10 +144,29 @@ else {
     Write-Host ("{0,-86} " -f "O compartilhamento $($caminhoCompleto) não foi criado") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
 
-# Forçar uma atualização nas configurações de exibição
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
 
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
 #----------------------------------------------------------------------------------------------
 
 # Rodape

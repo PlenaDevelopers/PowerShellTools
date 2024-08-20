@@ -1,6 +1,35 @@
 ﻿param (
-    [string]$wallpaper = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
+    [string]$imagem = "$PSScriptRoot\wallpaper\wallpaper_default.jpg"
 )
+
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+Write-Host "╔" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╗" -ForegroundColor Cyan  
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Definir") -NoNewline
+Write-Host ("{0,-86} " -f "Barra de Notícias") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
+Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Script") -NoNewline
+Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "╠" -NoNewline -ForegroundColor Cyan
+write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
+write-host "╣" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 
 # Função para definir o wallpaper
 function Set-Wallpaper {
@@ -46,43 +75,6 @@ public class Wallpaper
     [Wallpaper]::SetWallpaper($path)
 }
 
-# Função para alterar a cor de fundo
-function Set-BackgroundColor {
-    param (
-        [string]$color
-    )
-
-    # Definir a cor de fundo no registro
-    $key = 'HKCU:\Control Panel\Desktop\Colors'
-    Set-ItemProperty -Path $key -Name 'Background' -Value $color
-
-    # Forçar atualização das configurações
-    & "$env:SystemRoot\System32\RUNDLL32.EXE" user32.dll,UpdatePerUserSystemParameters 1, True
-}
-
-# Padronizar o Desktop
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╗" -ForegroundColor Cyan  
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Padronizar Desktop") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f " Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
-
 # Remover wallpaper atual
 $key = 'HKCU:\Control Panel\Desktop'
 Set-ItemProperty -Path $key -Name 'Wallpaper' -Value ''
@@ -92,45 +84,70 @@ Write-Host ("{0,-30} : " -f " Wallpaper") -NoNewline
 Write-Host ("{0,-86} " -f "Removido") -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
-# Definir cor de fundo
-$corFundo = '74 84 89'
-Set-BackgroundColor $corFundo
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Cor de Fundo") -NoNewline
-Write-Host ("{0,-86} " -f $corFundo) -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Novo Wallpaper") -NoNewline
 Write-Host ("{0,-86} " -f $wallpaper) -NoNewline -ForegroundColor Green
 Write-Host "║" -ForegroundColor Cyan
 
-if (Test-Path $wallpaper) {
-    $arquivo = (Get-Item $wallpaper).Name
+if (Test-Path $imagem) {
+    $arquivo = (Get-Item $imagem).Name
     $caminhoDestino = "$env:windir\Web\Wallpaper\"
+
+    # Copia a imagem para o diretório
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Arquivo") -NoNewline
-    Write-Host ("{0,-86} " -f "$caminhoDestino$($arquivo)") -NoNewline -ForegroundColor Green
+    Write-Host ("{0,-30} : " -f " Copiando Imagem (Origem)") -NoNewline
+    Write-Host ("{0,-86} " -f $imagem) -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+    
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Copiando Imagem (Destino)") -NoNewline
+    Write-Host ("{0,-86} " -f $caminhoDestino) -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 
-    Copy-Item -Path $wallpaper -Destination $caminhoDestino -Force
-    Set-Wallpaper "$caminhoDestino$($arquivo)"
+    $null=Copy-Item -Path $imagem -Destination $caminhoDestino -Force
+    $null=Set-Wallpaper "$caminhoDestino$($arquivo)"
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f " Wallpaper") -NoNewline
     Write-Host ("{0,-86} " -f "Arquivo não encontrado") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
 }
+#----------------------------------------------------------------------------------------------
 
-# Final do Script
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
+#----------------------------------------------------------------------------------------------
+
+# Rodape
+#----------------------------------------------------------------------------------------------
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan  
+
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Green
+Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
+
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╝" -ForegroundColor Cyan

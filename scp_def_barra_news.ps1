@@ -1,4 +1,5 @@
-﻿param (
+﻿#Script que remove a caixa de news
+param (
     [string]$acao = "0" # "0" para desativar, "1" para ativar
 )
 
@@ -220,12 +221,29 @@ Write-Host ("{0,-30} : " -f " Criando Valor") -NoNewline -ForegroundColor White
 Write-Host ("{0,-86} " -f "ActiveProfileId") -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 $null=New-ItemProperty -Path $regPath -Name "ActiveProfileId" -Value "Default" -PropertyType String -Force | Out-Null
+#----------------------------------------------------------------------------------------------
 
-# Atualiza as configurações para refletir as mudanças
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
 
-# Opcional: Reiniciar o processo do Windows Explorer
-Stop-Process -Name explorer -Force
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
 #----------------------------------------------------------------------------------------------
 
 # Rodape

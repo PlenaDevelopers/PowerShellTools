@@ -37,7 +37,7 @@ $destinationLogoPath = "C:\Windows\System32\oem\logo_plena.bmp"
 
 # Verifique se a pasta de destino existe, se não, crie-a
 if (-not (Test-Path "C:\Windows\System32\oem")) {
-    New-Item -Path "C:\Windows\System32\oem" -ItemType Directory -Force
+    $null=New-Item -Path "C:\Windows\System32\oem" -ItemType Directory -Force
 }
 
 # Copie a imagem BMP para o diretório do Windows
@@ -91,6 +91,29 @@ if (Test-Path $registryPath) {
     Write-Host ("{0,-30} : " -f " Informações ") -NoNewline -ForegroundColor White
     Write-Host ("{0,-86} " -f "Erro ao gravar") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
+}
+#----------------------------------------------------------------------------------------------
+
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
 }
 #----------------------------------------------------------------------------------------------
 

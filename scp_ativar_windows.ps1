@@ -1,4 +1,5 @@
-﻿# Cabeçalho
+﻿# Script para ativar o Microsoft Windows
+# Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
@@ -24,6 +25,8 @@ write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 write-host "╣" -ForegroundColor Cyan
 #----------------------------------------------------------------------------------------------
 
+# Cabeçalho de Informações
+#----------------------------------------------------------------------------------------------
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f " Versões Suportadas") -NoNewline
 Write-Host ("{0,-86} " -f "Serial Utilizado" ) -NoNewline -ForegroundColor Yellow
@@ -156,6 +159,7 @@ Write-Host "║" -ForegroundColor Cyan
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
@@ -226,6 +230,29 @@ else {
     Write-Host ("{0,-30} : " -f " Licenciamento") -NoNewline
     Write-Host ("{0,-86} " -f "O Windows não está ativado.") -NoNewline -ForegroundColor Red
     Write-Host "║" -ForegroundColor Cyan
+}
+#----------------------------------------------------------------------------------------------
+
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
 }
 #----------------------------------------------------------------------------------------------
 

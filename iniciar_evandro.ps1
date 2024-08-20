@@ -85,122 +85,360 @@ write-host "╝" -ForegroundColor Yellow
 #----------------------------------------------------------------------------------------------
 $nome_pc = "plena-01"
 $endereco_pc = "Rua Doutor Bittencourt Rodrigues,112"
-$perfil_usuario = $env:USERPROFILE
 $usuario_nome = 'Plena Soluções'
-$chave_windows = "W269N-WFGWX-YVC9B-4J6C9-T83GX"
+
 $senha_anydesk = 'P@ssw0rdCore2024'
+
 $arquivo_wallpaper = "$PSScriptRoot\wallpaper\wallpaper_evandro.jpg"
 $arquivo_fundo = "$PSScriptRoot\wallpaper\wallpaper_evandro.jpg"
 #----------------------------------------------------------------------------------------------
 
-# Iniciar Ações
+# Servidores de Terminal
 #----------------------------------------------------------------------------------------------
-& .\scp_atualizar_script.ps1
-Write-Host
-& .\scp_rep_desktop.ps1
+$rdpItems = @(
+    @{ "nome_arquivo_rdp" = "Marzzallo (W-Server).rdp"; "rdp_server" = "192.168.100.154" },
+    @{ "nome_arquivo_rdp" = "Marzzallo (T-Server).rdp"; "rdp_server" = "192.168.100.155" },
+    @{ "nome_arquivo_rdp" = "Marzzallo (S-Server).rdp"; "rdp_server" = "192.168.100.158" },
+    @{ "nome_arquivo_rdp" = "Marzzallo (R-Server).rdp"; "rdp_server" = "192.168.100.159" },
+    @{ "nome_arquivo_rdp" = "Plena (F-Server).rdp"; "rdp_server" = "192.168.120.252" },
+    @{ "nome_arquivo_rdp" = "Lextack (L-Server).rdp"; "rdp_server" = "192.168.130.202" }
+)
+#----------------------------------------------------------------------------------------------
+
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
+#----------------------------------------------------------------------------------------------
+
+# Atualizar Scripts
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_atualizar_script.ps1"
+#& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
 
-$nome_arquivo_rdp = "Servidor Lextack.rdp"
-$rdp_server = "l-server-01.lextack.local.net"
-& .\scp_def_arquivo_rdp.ps1 -nome_arquivo_rdp $nome_arquivo_rdp -rdp_server $rdp_server
+# Backup do Sistema
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_init_backup.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
+Write-Host
 
-$nome_arquivo_rdp = "Servidor T-Server.rdp"
-$rdp_server = "t-server.marzzallo.local.net"
-& .\scp_def_arquivo_rdp.ps1 -nome_arquivo_rdp $nome_arquivo_rdp -rdp_server $rdp_server
+# Reparar Desktop
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rep_desktop.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
+Write-Host
 
-$nome_arquivo_rdp = "Servidor S-Server.rdp"
-$rdp_server = "s-server.marzzallo.local.net"
-& .\scp_def_arquivo_rdp.ps1 -nome_arquivo_rdp $nome_arquivo_rdp -rdp_server $rdp_server
+# Limpar Arquivos Temporários
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rem_arquivos_temporarios.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
+Write-Host
 
-$nome_arquivo_rdp = "Servidor R-Server.rdp"
-$rdp_server = "r-server.marzzallo.local.net"
-& .\scp_def_arquivo_rdp.ps1 -nome_arquivo_rdp $nome_arquivo_rdp -rdp_server $rdp_server
+# Definir Servidor NTP
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_servidor_ntp.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
+Write-Host
 
-$nome_arquivo_rdp = "Servidor W-Server.rdp"
-$rdp_server = "w-server.marzzallo.local.net"
-& .\scp_def_arquivo_rdp.ps1 -nome_arquivo_rdp $nome_arquivo_rdp -rdp_server $rdp_server
+# Remover blocos dinâmicos
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rem_blocos_dinamicos.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
+Write-Host
 
-$nome_arquivo_rdp = "Servidor F-Server.rdp"
-$rdp_server = "f-server.forchesatto.local.net"
-& .\scp_def_arquivo_rdp.ps1 -nome_arquivo_rdp $nome_arquivo_rdp -rdp_server $rdp_server
+# Restaurar cores do Tema
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_tema_restaura_cores.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
+Write-Host
 
-& .\scp_rem_arquivos_temporarios.ps1
-Write-Host 
-& .\scp_def_servidor_ntp.ps1
+# Remover histórico de cores do Tema
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_tema_remove_historico.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_init_backup.ps1
+
+# Restaurar Wallpaper
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_tema_restaura_wallpaper.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_rem_blocos_dinamicos.ps1
+
+# Definir informações de suporte
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_suporte.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_tema_restaura_cores.ps1
+
+# Renomear primario
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_nome_disco_c.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_tema_remove_historico
+
+# Renomear secundário
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_nome_disco_d.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_tema_restaura_wallpaper
+
+# Definir plano de energia
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_plano_energia.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_suporte.ps1
+
+# Definir Barra de Pesquisa
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_barra_pesquisa.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_nome_disco_c.ps1
+
+# Definir Barra de News
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_barra_news.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_nome_disco_d.ps1
+
+# Definir Wallpaer
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_desktop_fundo.ps1"
+& $CabecalhoScriptPath -imagem $arquivo_wallpaper
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_plano_energia.ps1
+
+# Definir Fundo da tela de logon
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_fundo_logon.ps1"
+& $CabecalhoScriptPath -imagem $arquivo_fundo_logon
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_barra_pesquisa.ps1
+
+# Mostrar/Ocultar a versão do Windows no Desktop
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_desktop_versao.ps1"
+& $CabecalhoScriptPath -imagem $arquivo_fundo_logon
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_barra_news.ps1
+
+# Definir cor de fundo do Desktop
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_desktop_cor.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_desktop_fundo.ps1 -wallpaper $wallpaper
+
+# Definir o nome do computador
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_computador_nome.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_fundo_logon.ps1 -imagemCaminho $imagemCaminho
+
+# Corrigir Bug de impressora
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rep_bug_impressora_1.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_desktop_versao.ps1
+
+# Corrigir erro de Criptografia CredSSP
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rep_criptografia_credssp.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_desktop_cor.ps1
+
+# Corrigir erro de logns inseguros
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rep_logons_inseguros.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_computador_nome.ps1 -nome_pc $nome_pc
+
+# Habilitar "Visualizador de Imagens Clássico"
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_visualizador_imagens.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_rep_bug_impressora_1.ps1
+
+# Habilitar "Visualização da extensão dos arquivo"
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_arquivos_extensoes.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_rep_criptografia_credssp.ps1
+
+# Atualizar o Net. Framework
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_atualizar_framework.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_rep_logons_inseguros.ps1
+
+# Atualizar o Visual C Runtimes
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_atualizar_runtime.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_visualizador_imagens.ps1
+
+# Definir Serviço - Spooler
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_servico_spooler.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_atualizar_framework.ps1
+
+# Definir Serviço - Registro Remoto
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_servico_registro_remoto.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_atualizar_runtime.ps1
+
+# Definir Serviço - Temas
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_servico_temas.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_arquivos_extensoes.ps1
+
+# Definir Serviço - Link Distribuido
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_servico_link_distribuido.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_servico_spooler.ps1
+
+# Definir Protocolo DHCP
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_protocolo_dhcp.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_servico_registro_remoto.ps1
+
+# Desabilitar o "Protocolo IPv6"
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_protocolo_ipv6.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_servico_temas.ps1
+
+# Alterar o Local da Rede - Privada
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_local_rede.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_servico_link_distribuido.ps1
+
+# Compartilhar Pasta
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_compartilhamento.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_protocolo_dhcp.ps1
+
+# Suporte a Compartilhamentos de Arquivos SMBv1
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_smbv1.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_protocolo_ipv6.ps1
+
+# Remover aplicativos pré-instalados
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_rem_app.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_local_rede.ps1
+
+# Definir agrupamentode ícones no deskto
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_desktop_autoarrange.ps1"
+& $CabecalhoScriptPath -nome_pc $nome_pc
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_compartilhamento.ps1
+
+# Alterar senha do anydesk
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_anydesk_senha.ps1"
+& $CabecalhoScriptPath -Senha $senha_anydesk
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_rem_app.ps1
+
+# Alterar nome do usuário atual
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_usuario_nome.ps1"
+& $CabecalhoScriptPath -valor $usuario_nome
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_smbv1.ps1
+
+# Ativar Windows
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_ativar_windows.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_anydesk_senha -UnattendedPassword $senha_anydesk
+
+# Ativar Office
+#----------------------------------------------------------------------
+$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_ativar_Office.ps1"
+& $CabecalhoScriptPath
+#----------------------------------------------------------------------
 Write-Host
-& .\scp_def_usuario_nome -valor $usuario_nome
-Write-Host
-& .\scp_ativar_windows.ps1
-Write-Host
-& .\scp_ativar_Office.ps1
+
+# Atalhos para servidor RDP
+#----------------------------------------------------------------------
+# Loop para iterar sobre cada par e chamar o script
+foreach ($item in $rdpItems) {
+    $nomeArquivoRdp = $item["nome_arquivo_rdp"]
+    $rdpServer = $item["rdp_server"]
+
+    # Chamada ao script com as variáveis atuais
+    $CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_def_arquivo_rdp.ps1"
+    & $CabecalhoScriptPath -nome_arquivo_rdp $nomeArquivoRdp -rdp_server $rdpServer
+    }
+#----------------------------------------------------------------------
+
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Aplicar alterações
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+
+# Verificar se o processo explorer está em execução
+$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
+
+if ($explorerProcess) {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Reiniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Stop-Process -Name explorer -Force -ErrorAction SilentlyContinue
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f " Iniciando Processo") -NoNewline
+    Write-Host ("{0,-86} " -f "Windows Explorer") -NoNewline -ForegroundColor Cyan
+    Write-Host "║" -ForegroundColor Cyan
+    Start-Process explorer -WindowStyle Hidden
+}
+#----------------------------------------------------------------------------------------------
+
 #----------------------------------------------------------------------------------------------
 
 # Rodape
@@ -210,10 +448,11 @@ Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan  
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo") -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Processo") -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╚" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╝" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
