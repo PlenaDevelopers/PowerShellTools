@@ -106,8 +106,11 @@ $properties = @(
 
 foreach ($prop in $properties) {
     try {
-        Write-Host ("Verificando Valor : {0}" -f $prop.Name) -ForegroundColor Green
-        
+                Write-Host "║" -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Verificando Valor") -NoNewline -ForegroundColor White
+                Write-Host ("{0,-86} " -f $prop.Name) -NoNewline -ForegroundColor White
+                Write-Host "║" -ForegroundColor Cyan
+       
         # Verificar se a chave de registro existe
         if (Test-Path $regPath) {
             # Verificar se o valor existe
