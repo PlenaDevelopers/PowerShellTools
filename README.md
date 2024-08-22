@@ -54,7 +54,8 @@ Este repositório contém uma coleção de scripts PowerShell projetados para au
 1. Baixe o arquivo atualizador "scp_atualizar_script"
 2. Libere a execução de script powershell
 
-    ```	Set-ExecutionPolicy Unrestricted
+    ```bash
+    Set-ExecutionPolicy Unrestricted
     ```
 2. Execute o script baixado "scp_atualizar_script"
 
