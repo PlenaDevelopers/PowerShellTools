@@ -51,7 +51,7 @@ Este repositório contém uma coleção de scripts PowerShell projetados para au
 
 ## Instalação sem GIT
 
-1. Baixe o arquivo atualizador "acp_atualizar_script"
+1. Baixe o arquivo atualizador "scp_atualizar_script"
 2. Libere a execução de script powershell
 
     ```	Set-ExecutionPolicy Unrestricted
