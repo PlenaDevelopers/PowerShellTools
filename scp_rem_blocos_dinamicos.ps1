@@ -1,4 +1,28 @@
-﻿# Script para limpar os "Blocos Dinâmicos" do "Menu Iniciar"
+﻿<#
+    Função: Remover os Blocos Dinâmicos do Menu Iniciar
+	Copyright: © Plena Soluções - 2024
+	Date: Agosto/2024
+
+	Licenciamento:
+	Este script é fornecido "como está", sem qualquer garantia de qualquer tipo,
+	expressa ou implícita, incluindo, mas não se limitando às garantias de 
+	comercialização, adequação a um determinado fim e não violação. O uso deste 
+	script é totalmente gratuito, mas você deve manter os créditos ao autor original.
+	
+	Seriais/Keys:
+	Os Seriais/Keys para licenciamento de software contidos neste ou em outros
+	arquivos são meramente ilustrativos para a utilização do script, sendo assim cabe
+	ao utilizador do script alterar estas chaves para uma válida que represente o 
+	licenciamento vigente.
+
+	Bugs & Correções
+	Em caso de Bugs encontrado pedimos a gentileza de informar por email para que possamos 
+	analizar e gerar atualizações corretivas.
+
+	Autor: Evandro Campanhã
+	Contato: aurora.erp@gmail.com
+	------------------------------------------------------------------------------
+#>
 
 # Cabecalho
 #----------------------------------------------------------------------------------------------
