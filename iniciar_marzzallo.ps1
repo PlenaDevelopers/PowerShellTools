@@ -68,6 +68,10 @@ $altura = [System.Console]::WindowHeight
 # Move a janela do console
 [ConsoleUtils]::SetWindowPos($hWnd, [ConsoleUtils]::HWND_TOP, $x, $y, 0, 0, [ConsoleUtils]::SWP_NOSIZE -bor [ConsoleUtils]::SWP_NOZORDER)
 
+param (
+    [int]$Update = "1"
+)
+
 # Cabeçalho
 #----------------------------------------------------------------------------------------------
 Write-Host "╔" -NoNewline -ForegroundColor Yellow -BackgroundColor Black
@@ -131,8 +135,15 @@ $CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
 # Atualizar Scripts
 #----------------------------------------------------------------------
-$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_atualizar_script.ps1"
-& $CabecalhoScriptPath
+if ($Update -eq "1") {
+   $CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_atualizar_script.ps1"
+   & $CabecalhoScriptPath
+} else {
+    # Mensagem quando Update for 0
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-120}" -f " Update está desativado. Continuando o script...") -NoNewline -ForegroundColor Yellow
+    Write-Host "║" -ForegroundColor Cyan
+}
 #----------------------------------------------------------------------
 Write-Host
 
