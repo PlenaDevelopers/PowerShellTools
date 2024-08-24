@@ -1,5 +1,5 @@
 ﻿param (
-    [string]$HexColor = "#BAD357" # Cor padrão caso nenhum parâmetro seja fornecido
+    [string]$HexColor = "#0078D7" # Cor padrão caso nenhum parâmetro seja fornecido
 )
 
 function Convert-HexToARGB {
@@ -107,6 +107,5 @@ if ($Null -eq (Get-ItemProperty -Path $RegPath -Name $StartMenuKey.Key -ErrorAct
 
 # Reiniciar o processo Explorer para aplicar as mudanças
 Stop-Process -ProcessName explorer -Force -ErrorAction SilentlyContinue
-Start-Process explorer
 
 Write-Host "Cor de destaque alterada para $HexColor com sucesso!" -ForegroundColor Green
