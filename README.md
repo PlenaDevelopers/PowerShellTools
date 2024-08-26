@@ -78,6 +78,7 @@ Cada script pode ser executado diretamente a partir do PowerShell. Exemplos de u
  - Inicia a execução do iniciar.ps1
 (Ideal para Pen-Drive)
 ````
+Dúvidas & Contato: aurora.erp@gmail.com
 ---
 # English - USA
 ---
@@ -156,3 +157,5 @@ Each script can be executed directly from PowerShell. Usage examples are describ
  - Grants script execution permissions for PowerShell
  - Starts the execution of iniciar.ps1
 (Ideal for USB drives)
+```
+Issues & Contact: aurora.erp@gmail.com
