@@ -149,9 +149,10 @@ Each script can be executed directly from PowerShell. Usage examples are describ
 ```powershell
 .\iniciar.ps1
 (Requires script authorization - Set-ExecutionPolicy Unrestricted)
-
+````
 ### CMD
 
+```cmd
 .\iniciar.bat
  - Copies all contents of the folder to a directory on the fixed disk (D or C)
  - Grants script execution permissions for PowerShell
