@@ -1,25 +1,99 @@
-﻿# Script para habilitar ou desabilitar a Telemetria do Windows
+﻿<#
+    Função: Habilitar/Desabilitar a Telemetria
+	Copyright: © Plena Soluções - 2024
+	Date: Agosto/2024
+
+	Licenciamento:
+	Este script é fornecido "como está", sem qualquer garantia de qualquer tipo,
+	expressa ou implícita, incluindo, mas não se limitando às garantias de 
+	comercialização, adequação a um determinado fim e não violação. O uso deste 
+	script é totalmente gratuito, mas você deve manter os créditos ao autor original.
+	
+	Seriais/Keys:
+	Os Seriais/Keys para licenciamento de software contidos neste ou em outros
+	arquivos são meramente ilustrativos para a utilização do script, sendo assim cabe
+	ao utilizador do script alterar estas chaves para uma válida que represente o 
+	licenciamento vigente.
+
+	Bugs & Correções
+	Em caso de Bugs encontrado pedimos a gentileza de informar por email para que possamos 
+	analizar e gerar atualizações corretivas.
+
+	Autor: Evandro Campanhã
+	Contato: aurora.erp@gmail.com
+	------------------------------------------------------------------------------
+#>
 param (
-    [string]$valor = "0" # "0" - Desabilitar, "1" - Habilitar
+    [string]$opcao = "0" # "0" - Desabilitar, "1" - Habilitar
 )
 
-# Caminho do Registro para a Telemetria do Windows
-$telemetryRegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
-$telemetryRegName = "AllowTelemetry"
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+# Obter o diretório do script atual
+$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
+# Obter o nome do script atual
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
+
+# Executar o script de cabeçalho
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar a Telemetria"
+#----------------------------------------------------------------------------------------------
+if ($opcao -eq "0") {
+    $acao = "Desabilitar"
+} elseif ($opcao -eq "1") {
+    $acao = "Habilitar"
+}
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Valor") -NoNewline
+Write-Host ("{0,-86} " -f ("Telemetria: $acao")) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
 
 # Valor a ser configurado (1 para ativar e 0 para desativar)
-$telemetryRegValue = if ($valor -eq "1") { 1 } else { 0 }
+$RegValue = if ($valor -eq "1") { 1 } else { 0 }
+
+# Caminho do Registro para a Telemetria do Windows
+$RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+$RegName = "AllowTelemetry"
 
 # Verificar se o caminho no Registro existe, criar se não existir
-if (-not (Test-Path $telemetryRegPath)) {
-    New-Item -Path $telemetryRegPath -Force | Out-Null
+if (-not (Test-Path $regPath)) {
+    $null=New-Item -Path $regPath -Force | Out-Null
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Chave (Criada)") -NoNewline
+    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+}
+else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Chave (Existente)") -NoNewline
+    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
 }
 
 # Criar ou atualizar a entrada no Registro
-Set-ItemProperty -Path $telemetryRegPath -Name $telemetryRegName -Value $telemetryRegValue -Force
+Set-ItemProperty -Path $RegPath -Name $RegName -Value $RegValue -Force
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Valor") -NoNewline
+Write-Host ("{0,-86} " -f ("AllowTelemetry: $regValue")) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+#----------------------------------------------------------------------------------------------
 
-if ($valor -eq "1") {
-    Write-Host "Telemetria do Windows habilitada."
-} else {
-    Write-Host "Telemetria do Windows desabilitada."
-}
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+#----------------------------------------------------------------------------------------------
+
+# Rodapé
+#----------------------------------------------------------------------------------------------
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$rodapeScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
+
+# Executar o script de rodapé
+& $rodapeScriptPath
+#----------------------------------------------------------------------------------------------
