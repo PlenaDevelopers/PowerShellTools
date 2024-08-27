@@ -1,7 +1,16 @@
-﻿# Cabecalho
+﻿# Cabeçalho
 #----------------------------------------------------------------------------------------------
+# Obter o diretório do script atual
+$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
+# Obter o nome do script atual
 $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
-& .\scp_script_cabecalho.ps1 -Script $scriptName -Titulo "Atualizar Scripts"
+
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
+
+# Executar o script de cabeçalho
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Atualizar Scripts"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
@@ -22,7 +31,7 @@ $localPath = $currentScriptDirectory
 if (-not (Test-Path $localPath)) {
     $null=New-Item -ItemType Directory -Path $localPath -Force
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f " Diretorio") -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Diretorio") -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-86} " -f $localPath) -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Cyan
 }
@@ -44,7 +53,7 @@ function Download-Files {
             if (-not (Test-Path $newLocalDir)) {
                 $null=New-Item -ItemType Directory -Path $newLocalDir -Force
                 Write-Host "║" -NoNewline -ForegroundColor Cyan
-                Write-Host ("{0,-30} : " -f " Diretorio") -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Diretorio") -NoNewline -ForegroundColor Cyan
                 Write-Host ("{0,-86} " -f $newLocalDir) -NoNewline -ForegroundColor Green
                 Write-Host "║" -ForegroundColor Cyan
             }
@@ -58,12 +67,12 @@ function Download-Files {
                 Invoke-WebRequest -Uri $fileUrl -OutFile $localFilePath
                 $fileName = Split-Path -Path $localFilePath -Leaf
                 Write-Host "║" -NoNewline -ForegroundColor Cyan
-                Write-Host ("{0,-30} : " -f " Arquivo Baixado") -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Arquivo Baixado") -NoNewline -ForegroundColor Cyan
                 Write-Host ("{0,-86} " -f $fileName) -NoNewline -ForegroundColor Green
                 Write-Host "║" -ForegroundColor Cyan
             } catch {
                 Write-Host "║" -NoNewline -ForegroundColor Cyan
-                Write-Host ("{0,-30} : " -f " Arquivo com Erro") -NoNewline -ForegroundColor Cyan
+                Write-Host ("{0,-30} : " -f "Arquivo com Erro") -NoNewline -ForegroundColor Cyan
                 Write-Host ("{0,-86} " -f $item.name) -NoNewline -ForegroundColor Red
                 Write-Host "║" -ForegroundColor Cyan
             }
@@ -75,7 +84,14 @@ function Download-Files {
 Download-Files -url "https://api.github.com/repos/$owner/$repo/contents?ref=$branch" -localDir $localPath
 #----------------------------------------------------------------------------------------------
 
-# Rodape
+# Rodapé
 #----------------------------------------------------------------------------------------------
-& .\scp_script_rodape.ps1
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$rodapeScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
+
+# Executar o script de rodapé
+& $rodapeScriptPath
 #----------------------------------------------------------------------------------------------

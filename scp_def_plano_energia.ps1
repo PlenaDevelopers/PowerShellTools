@@ -23,17 +23,19 @@
 	Contato: aurora.erp@gmail.com
 	------------------------------------------------------------------------------
 #>
-
-# Cabecalho
+# Cabeçalho
 #----------------------------------------------------------------------------------------------
 # Obter o diretório do script atual
+$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
+# Obter o nome do script atual
 $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
-$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path
 
 # Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
-$CabecalhoScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_cabecalho.ps1"
+$cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
-& $CabecalhoScriptPath -Script $scriptName -Titulo "Definir plano de energia"
+# Executar o script de cabeçalho
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Definir o Plano de Energia"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
