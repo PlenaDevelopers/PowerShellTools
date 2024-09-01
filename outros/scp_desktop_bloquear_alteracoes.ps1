@@ -1,6 +1,6 @@
 ﻿# Script para bloquear/desbloquear configurações de personalização
 param (
-    [string]$acao = "1" # "0" para desbloquear, "1" para bloquear
+    [string]$acao = "0" # "0" para desbloquear, "1" para bloquear
 )
 
 # Função para definir valores no Registro
