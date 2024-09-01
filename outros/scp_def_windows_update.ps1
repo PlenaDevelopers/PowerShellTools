@@ -24,7 +24,7 @@
 	------------------------------------------------------------------------------
 #>
 param (
-    [string]$acao = "0" # "0" - Desabilitar, "1" - Habilitar
+    [string]$acao = "1" # "0" - Desabilitar, "1" - Habilitar
 )
 
 # Cabeçalho

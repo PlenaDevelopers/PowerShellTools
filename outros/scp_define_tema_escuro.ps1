@@ -1,85 +1,110 @@
-﻿#Script para alternar entre diferentes temas do Windows 10
+﻿<#
+    Função: Habilitar/Desabilitar Tema escuro
+	Copyright: © Plena Soluções - 2024
+	Date: Agosto/2024
+
+	Licenciamento:
+	Este script é fornecido "como está", sem qualquer garantia de qualquer tipo,
+	expressa ou implícita, incluindo, mas não se limitando às garantias de 
+	comercialização, adequação a um determinado fim e não violação. O uso deste 
+	script é totalmente gratuito, mas você deve manter os créditos ao autor original.
+	
+	Seriais/Keys:
+	Os Seriais/Keys para licenciamento de software contidos neste ou em outros
+	arquivos são meramente ilustrativos para a utilização do script, sendo assim cabe
+	ao utilizador do script alterar estas chaves para uma válida que represente o 
+	licenciamento vigente.
+
+	Bugs & Correções
+	Em caso de Bugs encontrado pedimos a gentileza de informar por email para que possamos 
+	analizar e gerar atualizações corretivas.
+
+	Autor: Evandro Campanhã
+	Contato: aurora.erp@gmail.com
+	------------------------------------------------------------------------------
+#>
 
 param (
-    [string]$Tema = "Claro"
+    [string]$acao = "0" # "0" - Escuro, "1" - Claro
 )
+
+# Cabeçalho
+#----------------------------------------------------------------------------------------------
+# Obter o diretório do script atual
+$scriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
+# Obter o nome do script atual
+$scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
+
+# Construir o caminho completo para o script 'scp_script_cabecalho.ps1'
+$cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
+
+# Executar o script de cabeçalho
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar Tema escuro"
+#----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
+if ($acao -eq "1") {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Tema claro") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+    $regValue = 1
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Tema Escuro") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+    $regValue = 0
+}
 
 # Caminho do Registro
 $regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize"
 $regName = "SystemUsesLightTheme"
 
-# Valor a ser configurado
-switch ($Tema) {
-    "Claro" {
-        $regValue = 1
-        break
-    }
-    "Escuro" {
-        $regValue = 0
-        break
-    }
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
 
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Item") -NoNewline
+Write-Host ("{0,-86} " -f $regName) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Valor") -NoNewline
+Write-Host ("{0,-86} " -f $regValue) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+# Verificar se o caminho no Registro existe, criar se não existir
+if (-not (Test-Path $regPath)) {
+    $null=New-Item -Path $regPath -Force | Out-Null
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+    Write-Host ("{0,-86} " -f "Criada") -NoNewline -ForegroundColor Green
+    Write-Host "║" -ForegroundColor Cyan
 }
-
-# Início da Interface
-Write-Host "╔" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╗" -ForegroundColor Cyan  
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Operação") -NoNewline
-Write-Host ("{0,-86} " -f "Alterar tema do Windows") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Yellow
-Write-Host ("{0,-30} : " -f "Copyright") -NoNewline
-Write-Host ("{0,-86} " -f "2023 - Evandro Campanhã") -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Yellow
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Script") -NoNewline
-Write-Host ("{0,-86} " -f $MyInvocation.MyCommand.Path) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
-Write-Host "╣" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Novo Tema") -NoNewline
-Write-Host ("{0,-86} " -f $Tema) -NoNewline -ForegroundColor Yellow
-Write-Host "║" -ForegroundColor Cyan
 
 # Definir o valor no Registro
 Set-ItemProperty -Path $regPath -Name $regName -Value $regValue
+#----------------------------------------------------------------------------------------------
 
-# Verifica se o processo do Windows Explorer está em execução
-$explorerProcess = Get-Process -Name explorer -ErrorAction SilentlyContinue
-
-# Se o processo não estiver em execução, inicie-o
-if (-not $explorerProcess) {
-    Start-Process explorer
-}
-
-# Atualiza as configurações para refletir as mudanças
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+# Atualizar as configurações do sistema
 rundll32.exe user32.dll, UpdatePerUserSystemParameters
+#----------------------------------------------------------------------------------------------
 
-# Encerra o processo do Windows Explorer para aplicar as alterações imediatamente
-Stop-Process -Name explorer -Force
+# Rodapé
+#----------------------------------------------------------------------------------------------
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
 
-# Aguarda alguns segundos antes de reiniciar o Windows Explorer
-Start-Sleep -Seconds 2
+# Construir o caminho completo para o script 'scp_script_rodape.ps1'
+$rodapeScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
 
-#Final do Script
-Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan  
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f " Processo")   -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-86} " -f "Finalizado") -NoNewline -ForegroundColor Cyan
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "╚" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╝" -ForegroundColor Cyan  
+# Executar o script de rodapé
+& $rodapeScriptPath
+#----------------------------------------------------------------------------------------------

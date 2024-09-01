@@ -43,180 +43,52 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 #----------------------------------------------------------------------------------------------
 # Obtém o diretório atual do script
 $currentScriptDirectory = $PSScriptRoot
+
 # Adiciona o subdiretório "updates"
 $updatesDirectory = Join-Path $currentScriptDirectory "updates\framework"
+
 # Se precisar do caminho completo do script
 $currentScriptPath = $MyInvocation.MyCommand.Path
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Diretorio das Atualizações") -NoNewline
-Write-Host ("{0,-86} " -f $updatesDirectory) -NoNewline -ForegroundColor Green
+Write-Host ("{0,-86} " -f $updatesDirectory) -NoNewline -ForegroundColor white
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
 Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
 Write-Host "╣" -ForegroundColor Cyan
 
-# Framework 3.5
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 3.5") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
 
-$netFrameworkPath = Join-Path $updatesDirectory "dotnetfx35.exe"
+# Definindo a lista de instaladores
+$installers = @(
+    @{ Name = "Microsoft NET. Framework 3.5"; Executable = "dotnetfx35.exe"; Switch = "/q /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.5"; Executable = "Net-Framework 4.5.exe"; Switch = "/quiet /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.6"; Executable = "Net-Framework 4.6.exe"; Switch = "/quiet /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.7.1"; Executable = "Net-Framework 4.7.1.exe"; Switch = "/quiet /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.7.2"; Executable = "Net-Framework 4.7.2.exe"; Switch = "/quiet /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.7.3"; Executable = "Net-Framework 4.7.3.exe"; Switch = "/quiet /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.8"; Executable = "Net-Framework 4.8.exe"; Switch = "/quiet /norestart" },
+    @{ Name = "Microsoft NET. Framework 4.8.1"; Executable = "Net-Framework 4.8.1.exe"; Switch = "/quiet /norestart" }
+)
 
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
+# Loop para instalar cada um
+foreach ($installer in $installers) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 3.5 não encontrado no diretório.") -NoNewline -ForegroundColor Red
+    Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
+    Write-Host ("{0,-86} " -f $installer.Name) -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Cyan
-}
 
-# Framework 4.5
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.5") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
+    $installerPath = Join-Path $updatesDirectory $installer.Executable
 
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.5.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.5 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.6
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.6") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.6.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.6 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.6.1
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.6.1") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.6.1.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.6.1 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.7.1
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.7.1") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.7.1.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.7.1 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.7.2
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.7.2") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.7.2.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.7.2 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.7.3
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.7.3") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.7.3.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.7.3 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.8
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.8") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.8.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.8 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Framework 4.8.1
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "NET Framework 4.8.1") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$netFrameworkPath = Join-Path $updatesDirectory "Net-Framework 4.8.1.exe"
-
-if (Test-Path $netFrameworkPath) {
-    Start-Process -FilePath $netFrameworkPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "NET Framework 4.8.1 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
+    if (Test-Path $installerPath) {
+        Start-Process -FilePath $installerPath -ArgumentList $installer.Switch -Wait
+    } else {
+        Write-Host "║" -NoNewline -ForegroundColor Cyan
+        Write-Host ("{0,-30} : " -f " Aviso") -NoNewline -ForegroundColor Yellow
+        Write-Host ("{0,-86} " -f "$($installer.Name) não encontrado no diretório.") -NoNewline -ForegroundColor Red
+        Write-Host "║" -ForegroundColor Cyan
+    }
 }
 #----------------------------------------------------------------------------------------------
 

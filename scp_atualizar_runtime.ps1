@@ -43,144 +43,49 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 #----------------------------------------------------------------------------------------------
 # Obtém o diretório atual do script
 $currentScriptDirectory = $PSScriptRoot
+
 # Adiciona o subdiretório "updates"
 $updatesDirectory = Join-Path $currentScriptDirectory "updates\visual_runtimes"
+
 # Se precisar do caminho completo do script
 $currentScriptPath = $MyInvocation.MyCommand.Path
-
 Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Diretorio das Atualizações") -NoNewline
-Write-Host ("{0,-86} "   -f $updatesDirectory) -NoNewline -ForegroundColor Green
+Write-Host ("{0,-30} : " -f "Diretório das Atualizações") -NoNewline
+Write-Host ("{0,-86} " -f $updatesDirectory) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
 
 Write-Host "╠" -NoNewline -ForegroundColor Cyan
-write-host ("═" * 120) -NoNewline -ForegroundColor Cyan
-write-host "╣" -ForegroundColor Cyan
+Write-Host ("═" * 120) -NoNewline -ForegroundColor Cyan
+Write-Host "╣" -ForegroundColor Cyan
 
-# Visual C 2005
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C 2005") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
+# Definindo a lista de instaladores do Visual C++
+$visualCInstallers = @(
+    @{ Name = "Visual C 2005"; Executable = "vcredist2005_x64.exe"; Switch = "/q" },
+    @{ Name = "Visual C 2008"; Executable = "vcredist2008_x64.exe"; Switch = "/q" },
+    @{ Name = "Visual C 2010"; Executable = "vcredist2010_x64.exe"; Switch = "/q" },
+    @{ Name = "Visual C 2012"; Executable = "vcredist2012_x64.exe"; Switch = "/q" },
+    @{ Name = "Visual C 2013"; Executable = "vcredist2013_x64.exe"; Switch = "/q" },
+    @{ Name = "Visual C 2015 / 2017 / 2019 / 2022"; Executable = "vcredist2015_2017_2019_2022_x64.exe"; Switch = "/q" },
+    @{ Name = "Visual C Universal"; Executable = "Windows8.1-KB2999226-x64.msu"; Switch = "/quiet" }
+)
 
-$vcredist2005Path = Join-Path $updatesDirectory "vcredist2005_x64.exe"
-
-if (Test-Path $vcredist2005Path) {
-    Start-Process -FilePath $vcredist2005Path -ArgumentList "/q" -Wait
-} else {
+# Loop para instalar cada Visual C++
+foreach ($installer in $visualCInstallers) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C 2005 não encontrado no diretório.") -NoNewline -ForegroundColor Red
+    Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
+    Write-Host ("{0,-86} " -f $installer.Name) -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Cyan
-}
 
-# Visual C 2008
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C 2008") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
+    $installerPath = Join-Path $updatesDirectory $installer.Executable
 
-$vcredist2008Path = Join-Path $updatesDirectory "vcredist2008_x64.exe"
-
-if (Test-Path $vcredist2008Path) {
-    Start-Process -FilePath $vcredist2008Path -ArgumentList "/q" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C 2008 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Visual C 2010
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C 2010") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$vcredist2010Path = Join-Path $updatesDirectory "vcredist2010_x64.exe"
-
-if (Test-Path $vcredist2010Path) {
-    Start-Process -FilePath $vcredist2010Path -ArgumentList "/q" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C 2010 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Visual C 2012
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C 2012") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$vcredist2012Path = Join-Path $updatesDirectory "vcredist2012_x64.exe"
-
-if (Test-Path $vcredist2012Path) {
-    Start-Process -FilePath $vcredist2012Path -ArgumentList "/q" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C 2012 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Visual C 2013
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C 2013") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$vcredist2013Path = Join-Path $updatesDirectory "vcredist2013_x64.exe"
-
-if (Test-Path $vcredist2013Path) {
-    Start-Process -FilePath $vcredist2013Path -ArgumentList "/q" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C 2013 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Visual C 2015 / 2017 / 2019 / 2022
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C 2015 / 2017 / 2019 / 2022") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$vcredist2015_2022Path = Join-Path $updatesDirectory "vcredist2015_2017_2019_2022_x64.exe"
-
-if (Test-Path $vcredist2015_2022Path) {
-    Start-Process -FilePath $vcredist2015_2022Path -ArgumentList "/q" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C 2015 / 2017 / 2019 / 2022 não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Visual C Universal
-#----------------------------------------------------------------------------------------------
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Instalando") -NoNewline -ForegroundColor White
-Write-Host ("{0,-86} " -f "Visual C Universal") -NoNewline -ForegroundColor Green
-Write-Host "║" -ForegroundColor Cyan
-
-$visualCUniversalPath = Join-Path $updatesDirectory "Windows8.1-KB2999226-x64.msu"
-
-if (Test-Path $visualCUniversalPath) {
-    Start-Process -FilePath $visualCUniversalPath -ArgumentList "/quiet" -Wait
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
-    Write-Host ("{0,-86} " -f "Visual C Universal não encontrado no diretório.") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
+    if (Test-Path $installerPath) {
+        Start-Process -FilePath $installerPath -ArgumentList $installer.Switch -Wait
+    } else {
+        Write-Host "║" -NoNewline -ForegroundColor Cyan
+        Write-Host ("{0,-30} : " -f "Aviso") -NoNewline -ForegroundColor Yellow
+        Write-Host ("{0,-86} " -f "$($installer.Name) não encontrado no diretório.") -NoNewline -ForegroundColor Red
+        Write-Host "║" -ForegroundColor Cyan
+    }
 }
 #----------------------------------------------------------------------------------------------
 
