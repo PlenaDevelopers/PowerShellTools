@@ -24,7 +24,7 @@
 	------------------------------------------------------------------------------
 #>
 param (
-    [string]$opcao = "0" # "0" - Desabilitar, "1" - Habilitar
+    [string]$acao = "1" # "0" - Desabilitar, "1" - Habilitar
 )
 
 # Cabeçalho
@@ -41,37 +41,48 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 # Executar o script de cabeçalho
 & $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o Teredo"
 #----------------------------------------------------------------------------------------------
-if ($opcao -eq "0") {
-    $acao = "Desabilitar"
-} elseif ($opcao -eq "1") {
-    $acao = "Habilitar"
+# Valor a ser configurado (1 para ativar e 0 para desativar)
+if ($acao -eq "1") {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Ativar") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Desativar") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
 }
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Valor") -NoNewline
-Write-Host ("{0,-86} " -f ("Teredo: $acao")) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
 
 # Converter a ação para um valor numérico
-$regValue = [int]$opcao
+$regValue = [int]$acao
 
 # Caminho do Registro para o Teredo
 $regPath = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters"
 $regName = "DisabledComponents"
 
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Item") -NoNewline
+Write-Host ("{0,-86} " -f $regName) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Valor") -NoNewline
+Write-Host ("{0,-86} " -f $regValue) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
 # Verificar se o caminho no Registro existe, criar se não existir
 if (-not (Test-Path $regPath)) {
     $null=New-Item -Path $regPath -Force | Out-Null
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Chave (Criada)") -NoNewline
-    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
-    Write-Host "║" -ForegroundColor Cyan
-}
-else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Chave (Existente)") -NoNewline
-    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
-    Write-Host "║" -ForegroundColor Cyan
-}
+    Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+    Write-Host ("{0,-86} " -f "Criada") -NoNewline -ForegroundColor Green
+    }
 
 $null=New-ItemProperty -Path $regPath -Name $regName -Value $regValue -PropertyType DWORD -Force | Out-Null
 Write-Host "║" -NoNewline -ForegroundColor Cyan
@@ -87,7 +98,7 @@ if ($regValue -eq 0) {
 }
 
 # Definir o novo valor no Registro
-Set-ItemProperty -Path $regPath -Name $regName -Value $newValue
+$null=Set-ItemProperty -Path $regPath -Name $regName -Value $newValue
 #----------------------------------------------------------------------------------------------
 
 # Aplicando alterações

@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Definir a organização o histórico de atividades
+    Função: Instalar Google Chrome
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
@@ -23,10 +23,6 @@
 	Contato: aurora.erp@gmail.com
 	------------------------------------------------------------------------------
 #>
-param (
-    [string]$acao = "0" # "0" - Desabilitar, "1" - Habilitar
-)
-
 # Cabeçalho
 #----------------------------------------------------------------------------------------------
 # Obter o diretório do script atual
@@ -39,57 +35,34 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o histórico de atividade"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Instalar Google Chrome"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
-# Valor a ser configurado (1 para ativar e 0 para desativar)
-if ($acao -eq "1") {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
-    Write-Host ("{0,-86} " -f "Ativar") -NoNewline -ForegroundColor White
-    Write-Host "║" -ForegroundColor Cyan
-} else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
-    Write-Host ("{0,-86} " -f "Desativar") -NoNewline -ForegroundColor White
-    Write-Host "║" -ForegroundColor Cyan
+$url = "https://dl.google.com/chrome/install/375.126/chrome_installer.exe"
+$installerPath = "C:\Temp\Chrome_Installer.exe"
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Aplicativo") -NoNewline -ForegroundColor White
+Write-Host ("{0,-86} "   -f "Google Chrome" ) -NoNewline -ForegroundColor Cyan
+Write-Host "║" -ForegroundColor Cyan
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " URL") -NoNewline -ForegroundColor White
+Write-Host ("{0,-86} "   -f "$url" ) -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f " Arquivo Temporário") -NoNewline -ForegroundColor White
+Write-Host ("{0,-86} "   -f "$installerPath" ) -NoNewline -ForegroundColor Yellow
+Write-Host "║" -ForegroundColor Cyan
+# Criar o diretório se não existir
+$directory = [System.IO.Path]::GetDirectoryName($installerPath)
+if (-not (Test-Path $directory -PathType Container)) {
+    New-Item -ItemType Directory -Path $directory | Out-Null
 }
-
-# Converter a ação para um valor numérico
-$regValue = [int]$acao
-
-# Caminho do Registro para o histórico de atividades
-$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-$regName = "PublishUserActivities"
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Chave") -NoNewline
-Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Item") -NoNewline
-Write-Host ("{0,-86} " -f $regName) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Valor") -NoNewline
-Write-Host ("{0,-86} " -f $regValue) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
-
-# Verificar se o caminho no Registro existe, criar se não existir
-if (-not (Test-Path $regPath)) {
-    $null=New-Item -Path $regPath -Force | Out-Null
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Chave") -NoNewline
-    Write-Host ("{0,-86} " -f "Criada") -NoNewline -ForegroundColor Green
-    Write-Host "║" -ForegroundColor Cyan
-}
-
-# Criar ou atualizar a entrada no Registro
-$null = New-ItemProperty -Path $regPath -Name $regName -Value $regValue -PropertyType DWORD -Force
+# Baixar o instalador com exibição de progresso
+Invoke-WebRequest -Uri $url -OutFile $installerPath -UseBasicParsing
+# Executar a instalação silenciosa
+Start-Process -FilePath $installerPath -ArgumentList "/silent /install" -Wait
 #----------------------------------------------------------------------------------------------
 
 # Aplicando alterações

@@ -41,15 +41,18 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 # Executar o script de cabeçalho
 & $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o sensor de Wifi"
 #----------------------------------------------------------------------------------------------
-if ($opcao -eq "0") {
-    $acao = "Desabilitar"
-} elseif ($opcao -eq "1") {
-    $acao = "Habilitar"
+# Valor a ser configurado (1 para ativar e 0 para desativar)
+if ($acao -eq "1") {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Ativar") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+} else {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Desativar") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
 }
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Valor") -NoNewline
-Write-Host ("{0,-86} " -f ("Sensor de Armazenamento: $acao")) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
 
 # Converter a ação para um valor numérico
 $regValue = [int]$opcao
@@ -58,27 +61,32 @@ $regValue = [int]$opcao
 $regPath = "HKLM:\SYSTEM\CurrentControlSet\Control\Class\{4d36e972-e325-11ce-bfc1-08002be10318}"
 $regName = "RadioEnable"
 
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Item") -NoNewline
+Write-Host ("{0,-86} " -f $regName) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Valor") -NoNewline
+Write-Host ("{0,-86} " -f $regValue) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
 # Verificar se o caminho no Registro existe, criar se não existir
 if (-not (Test-Path $regPath)) {
     $null=New-Item -Path $regPath -Force | Out-Null
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Chave (Criada)") -NoNewline
-    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
-    Write-Host "║" -ForegroundColor Cyan
-}
-else {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Chave (Existente)") -NoNewline
-    Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+    Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+    Write-Host ("{0,-86} " -f "Criada") -NoNewline -ForegroundColor Green
     Write-Host "║" -ForegroundColor Cyan
 }
 
 # Criar ou atualizar a entrada no Registro
 $null=New-ItemProperty -Path $regPath -Name $regName -Value $regValue -PropertyType DWORD -Force | Out-Null
-Write-Host "║" -NoNewline -ForegroundColor Cyan
-Write-Host ("{0,-30} : " -f "Valor") -NoNewline
-Write-Host ("{0,-86} " -f ("01: $regValue")) -NoNewline -ForegroundColor White
-Write-Host "║" -ForegroundColor Cyan
 #----------------------------------------------------------------------------------------------
 
 # Aplicando alterações

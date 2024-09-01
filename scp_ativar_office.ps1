@@ -25,7 +25,9 @@
 #>
 # Parâmetro de entrada
 Param (
-    [string]$ProductKey = "XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99" # Chave padrão
+    [string]$Chave = "XQNVK-8JYDB-WJ9W3-YJ8YR-WFG99", # Chave padrão
+    [string]$KmsServer = "e8.us.to", # Servidor KMS. Use kms.core.windows.net (Original da Microsoft)
+    [string]$KmsPort = 1688 # Porta do servidor KMS. Use 1688 (Original da Microsoft)
 )
 
 # Cabeçalho
@@ -45,7 +47,6 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
-
 # Definindo as variáveis de diretório base para Office 64 bits e 32 bits
 $Office64Path = "${env:ProgramFiles}\Microsoft Office\Office16"
 $Office32Path = "${env:ProgramFiles(x86)}\Microsoft Office\Office16"
@@ -87,7 +88,7 @@ else {
 # Inserindo as licenças KMS
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Inserindo Chave") -NoNewline
-Write-Host ("{0,-86} " -f $ProductKey) -NoNewline -ForegroundColor Yellow
+Write-Host ("{0,-86} " -f $Chave) -NoNewline -ForegroundColor Yellow
 Write-Host "║" -ForegroundColor Cyan
 
 Get-ChildItem -Path "..\root\Licenses16" -Filter "proplusvl_kms*.xrm-ms" | ForEach-Object {
@@ -101,9 +102,9 @@ Get-ChildItem -Path "..\root\Licenses16" -Filter "proplusvl_kms*.xrm-ms" | ForEa
 # Inserindo a chave de produto
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Chave") -NoNewline
-Write-Host ("{0,-86} " -f $ProductKey) -NoNewline -ForegroundColor White
+Write-Host ("{0,-86} " -f $Chave) -NoNewline -ForegroundColor White
 Write-Host "║" -ForegroundColor Cyan
-$null=& cscript ospp.vbs /inpkey:$ProductKey
+$null=& cscript ospp.vbs /inpkey:$Chave
 
 # Removendo chaves antigas
 $OldKeys = @("BTDRB", "KHGM9", "CPQVG")
@@ -114,10 +115,6 @@ foreach ($Key in $OldKeys) {
     Write-Host "║" -ForegroundColor Cyan
     & cscript ospp.vbs /unpkey:$Key > $null
 }
-
-# Configurando o servidor KMS e ativando o Office
-$KmsServer = "e8.us.to"
-$KmsPort = 1688
 
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Servidor KMS") -NoNewline

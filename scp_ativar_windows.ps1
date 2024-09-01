@@ -23,6 +23,10 @@
 	Contato: aurora.erp@gmail.com
 	------------------------------------------------------------------------------
 #>
+# Parâmetro de entrada
+Param (
+    [string]$KmsServer = "kms.digiboy.ir" # Servidor KMS. Use kms.core.windows.net (Original da Microsoft)
+)
 
 # Cabeçalho
 #----------------------------------------------------------------------------------------------
@@ -219,14 +223,12 @@ Write-Host "║" -ForegroundColor Cyan
 
 $null = & cscript.exe C:\Windows\System32\slmgr.vbs /ipk $chave
 
-$serverKMS = "kms.digiboy.ir"
-
 Write-Host "║" -NoNewline -ForegroundColor Cyan
 Write-Host ("{0,-30} : " -f "Servidor KMS") -NoNewline
-Write-Host ("{0,-86} " -f $serverKMS    ) -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-86} " -f $KmsServer) -NoNewline -ForegroundColor Cyan
 Write-Host "║" -ForegroundColor Cyan
 
-$null = & cscript.exe C:\Windows\System32\slmgr.vbs /skms $serverKMS
+$null = & cscript.exe C:\Windows\System32\slmgr.vbs /skms $KmsServer
 
 # Ativar o Windows
 $null = & cscript.exe C:\Windows\System32\slmgr.vbs /ato

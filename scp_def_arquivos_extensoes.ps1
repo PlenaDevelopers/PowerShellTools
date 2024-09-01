@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Habilita/Desabilita a visualização das extensões de arquivos no Windows
+    Função: Habilitar/Desabilitar o histórico de atividades
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
@@ -24,7 +24,7 @@
 	------------------------------------------------------------------------------
 #>
 param (
-    [string]$valor = "1" # "0" - Não Mostrar | "1" - Mostrar 
+    [string]$acao = "0" # "0" - Não Mostrar | "1" - Mostrar 
 )
 
 # Cabeçalho
@@ -39,43 +39,57 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar a visualização das extensões de arquivos"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o histórico de atividades"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
-# Defina o caminho para o Registro do Windows
-$registryPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
-
-# Defina o nome do valor no registro
-$valueName = "HideFileExt"
-
-# Verifique se o parâmetro é válido
-if ($valor -ne "0" -and $valor -ne "1") {
-    Write-Host "║" -NoNewline -ForegroundColor Red
-    Write-Host ("{0,-30} : " -f "Erro") -NoNewline
-    Write-Host ("{0,-86} " -f "Parâmetro inválido! Use '0' para Não Mostrar ou '1' para Mostrar") -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
-    exit
-}
-
-# Defina o valor de acordo com o parâmetro
-$regValue = [int]$valor
-
-# Verifique se o caminho do registro existe
-if (Test-Path $registryPath) {
-    # Crie ou atualize o valor no registro
-    Set-ItemProperty -Path $registryPath -Name $valueName -Value $regValue
+# Valor a ser configurado (1 para ativar e 0 para desativar)
+if ($acao -eq "1") {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Status") -NoNewline
-    Write-Host ("{0,-86} " -f "Ativada") -NoNewline -ForegroundColor Green
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Ativar") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 } else {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Status") -NoNewline
-    Write-Host ("{0,-86} " -f "Desativada") -NoNewline -ForegroundColor Red
+    Write-Host ("{0,-30} : " -f "Opção") -NoNewline
+    Write-Host ("{0,-86} " -f "Desativar") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 }
+
+# Defina o valor de acordo com o parâmetro
+$regValue = [int]$acao
+
+# Defina o caminho para o Registro do Windows
+$regPath = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$regName = "HideFileExt"
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+Write-Host ("{0,-86} " -f $regPath) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Item") -NoNewline
+Write-Host ("{0,-86} " -f $regName) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Valor") -NoNewline
+Write-Host ("{0,-86} " -f $regValue) -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+# Verificar se o caminho no Registro existe, criar se não existir
+if (-not (Test-Path $regPath)) {
+    $null=New-Item -Path $regPath -Force | Out-Null
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Chave") -NoNewline
+    Write-Host ("{0,-86} " -f "Criada") -NoNewline -ForegroundColor Green
+    Write-Host "║" -ForegroundColor Cyan
+}
+
+# Criar ou atualizar a entrada no Registro
+$null = New-ItemProperty -Path $regPath -Name $regName -Value $regValue -PropertyType DWORD -Force
 #----------------------------------------------------------------------------------------------
 
 # Aplicando alterações
