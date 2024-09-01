@@ -43,6 +43,9 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 # Executar o script de cabeçalho
 & $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o Logon Automático"
 #----------------------------------------------------------------------------------------------
+
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 if ($HabilitarLogonAutomatico -eq "0") {
     $acao = "Desabilitar"
 } elseif ($HabilitarLogonAutomatico -eq "1") {

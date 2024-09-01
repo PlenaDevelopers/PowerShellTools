@@ -57,60 +57,36 @@ if ($acao -eq "1") {
     Write-Host "║" -ForegroundColor Cyan
 }
 
-try {
-    if ($acao -eq "1") {
-        # Habilitar Windows Defender
-        Write-Host "║" -NoNewline -ForegroundColor Cyan
-        Write-Host ("{0,-30} : " -f "Status") -NoNewline
-        Write-Host ("{0,-86} " -f "Habilitando") -NoNewline -ForegroundColor White
-        Write-Host "║" -ForegroundColor Cyan
-
-        Set-MpPreference -DisableRealtimeMonitoring $false
-        Set-MpPreference -DisableBehaviorMonitoring $false
-        Set-MpPreference -DisableIOAVProtection $false
-        Set-MpPreference -DisableScriptScanning $false
-
-        # Configurar o registro para permitir que o Windows Defender funcione corretamente
-        $regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender"
-        if (-not (Test-Path $regPath)) {
-            New-Item -Path $regPath -Force | Out-Null
-        }
-        Remove-ItemProperty -Path $regPath -Name "DisableAntiSpyware" -ErrorAction SilentlyContinue
-
-        Write-Host "║" -NoNewline -ForegroundColor Cyan
-        Write-Host ("{0,-30} : " -f "Status") -NoNewline
-        Write-Host ("{0,-86} " -f "Windows Defender habilitado") -NoNewline -ForegroundColor Green
-        Write-Host "║" -ForegroundColor Cyan
-    } else {
-        # Desabilitar Windows Defender
-        Write-Host "║" -NoNewline -ForegroundColor Cyan
-        Write-Host ("{0,-30} : " -f "Status") -NoNewline
-        Write-Host ("{0,-86} " -f "Desabilitando") -NoNewline -ForegroundColor White
-        Write-Host "║" -ForegroundColor Cyan
-
-        Set-MpPreference -DisableRealtimeMonitoring $true
-        Set-MpPreference -DisableBehaviorMonitoring $true
-        Set-MpPreference -DisableIOAVProtection $true
-        Set-MpPreference -DisableScriptScanning $true
-
-        # Configurar o registro para desativar o Windows Defender
-        $regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender"
-        if (-not (Test-Path $regPath)) {
-            New-Item -Path $regPath -Force | Out-Null
-        }
-        Set-ItemProperty -Path $regPath -Name "DisableAntiSpyware" -Value 1 -Type DWord
-
-        Write-Host "║" -NoNewline -ForegroundColor Cyan
-        Write-Host ("{0,-30} : " -f "Status") -NoNewline
-        Write-Host ("{0,-86} " -f "Windows Defender desabilitado") -NoNewline -ForegroundColor Red
-        Write-Host "║" -ForegroundColor Cyan
-    }
-} catch {
-    Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Erro") -NoNewline
-    Write-Host ("{0,-86} " -f $_.Exception.Message) -NoNewline -ForegroundColor Red
-    Write-Host "║" -ForegroundColor Cyan
+if ($acao -eq "1") {
+    # Habilitar Windows Defender
+    Set-MpPreference -DisableRealtimeMonitoring $false
+    Set-MpPreference -DisableBehaviorMonitoring $false
+    Set-MpPreference -DisableIOAVProtection $false
+    Set-MpPreference -DisableScriptScanning $false
+} else {
+    # Desabilitar Windows Defender
+    Set-MpPreference -DisableRealtimeMonitoring $true
+    Set-MpPreference -DisableBehaviorMonitoring $true
+    Set-MpPreference -DisableIOAVProtection $true
+    Set-MpPreference -DisableScriptScanning $true
 }
+
+if ($acao -eq "1") {
+    # Configurar o registro para permitir que o Windows Defender funcione corretamente
+    $regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender"
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force | Out-Null
+    }
+    Remove-ItemProperty -Path $regPath -Name "DisableAntiSpyware" -ErrorAction SilentlyContinue
+} else {
+    # Configurar o registro para desativar o Windows Defender
+    $regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender"
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force | Out-Null
+    }
+    Set-ItemProperty -Path $regPath -Name "DisableAntiSpyware" -Value 1 -Type DWord
+}
+
 #----------------------------------------------------------------------------------------------
 
 # Aplicando alterações

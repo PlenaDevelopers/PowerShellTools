@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Habilitar/Desabilitar o histórico de atividades
+    Função: Habilita/Desabilita a visualização das extensões de arquivos no Windows
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
@@ -39,7 +39,7 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o histórico de atividades"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar a visualização das extensões de arquivos"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações
