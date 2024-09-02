@@ -20,10 +20,10 @@
 
 # Lista de usuários a serem criados
 $usuarios = @(
-    @{ Name = "Teste de Usuario 1"; Username = "teste1"; Password = "SenhaSegura123!"; Group = "Users"; Description = "Usuário de Teste 1" },
-    @{ Name = "Teste de Usuario 2"; Username = "teste2"; Password = "SenhaSegura123!"; Group = "Administrators"; Description = "Usuário de Teste 2" },
-    @{ Name = "Teste de Usuario 3"; Username = "teste3"; Password = "SenhaSegura123!"; Group = "Users"; Description = "Usuário de Teste de Script" },
-    @{ Name = "Teste de Usuario 4"; Username = "teste4"; Password = "SenhaSegura123!"; Group = "Users"; Description = "Usuário de Teste 4" }
+    @{ Name = "Teste de Usuario 1"; Username = "teste1"; Password = "SenhaSegura123!"; Group = "Usuários"; Description = "Usuário de Teste 1" },
+    @{ Name = "Teste de Usuario 2"; Username = "teste2"; Password = "SenhaSegura123!"; Group = "Administradores"; Description = "Usuário de Teste 2" },
+    @{ Name = "Teste de Usuario 3"; Username = "teste3"; Password = "SenhaSegura123!"; Group = "Usuários"; Description = "Usuário de Teste de Script" },
+    @{ Name = "Teste de Usuario 4"; Username = "teste4"; Password = "SenhaSegura123!"; Group = "Usuários"; Description = "Usuário de Teste 4" }
 )
 
 # Cabeçalho
@@ -41,6 +41,8 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 & $cabecalhoScriptPath -Script $scriptName -Titulo "Criar Usuários no Windows"
 #----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 # Função para verificar e criar grupos se necessário
 function VerificarOuCriarGrupo($grupo) {
     if (-not (Get-LocalGroup -Name $grupo -ErrorAction SilentlyContinue)) {
@@ -110,10 +112,18 @@ foreach ($usuario in $usuarios) {
 }
 #----------------------------------------------------------------------------------------------
 
+# Aplicando alterações
+#----------------------------------------------------------------------------------------------
+rundll32.exe user32.dll, UpdatePerUserSystemParameters
+#----------------------------------------------------------------------------------------------
+
 # Rodapé
 #----------------------------------------------------------------------------------------------
+# Obter o diretório do script atual
+$CurrentScriptDirectory = Split-Path -Path $MyInvocation.MyCommand.Path -Parent
+
 # Construir o caminho completo para o script 'scp_script_rodape.ps1'
-$rodapeScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_rodape.ps1"
+$rodapeScriptPath = Join-Path -Path $CurrentScriptDirectory -ChildPath "scp_script_rodape.ps1"
 
 # Executar o script de rodapé
 & $rodapeScriptPath

@@ -42,6 +42,8 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 & $cabecalhoScriptPath -Script $scriptName -Titulo "Habilitar/Desabilitar o Cortana"
 #----------------------------------------------------------------------------------------------
 
+# Iniciar Ações
+#----------------------------------------------------------------------------------------------
 if ($acao -eq "0") {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f "Opção") -NoNewline -ForegroundColor Cyan
