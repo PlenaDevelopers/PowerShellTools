@@ -23,9 +23,13 @@
 	Contato: aurora.erp@gmail.com
 	------------------------------------------------------------------------------
 #>
+
 param (
-    [string]$diretorio = "d:\drivers"
+    [string]$CLSID = "2593F8B9-4EAF-457C-B68A-50F6B8EA6B54",
+    [string]$APPID = "15C20B67-12E7-4BB6-92BB-7AFF07997402",
+    [string]$User = "Administrador"
 )
+
 # Cabeçalho
 #----------------------------------------------------------------------------------------------
 # Obter o diretório do script atual
@@ -43,61 +47,61 @@ $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_c
 
 # Iniciar Ações
 #----------------------------------------------------------------------------------------------
-# Verifica se o parâmetro foi passado e se o diretório existe
-if (-not (Test-Path -Path $diretorio)) {
-    Write-Host "Erro: O diretório '$direotrio' não foi encontrado." -ForegroundColor Red
+# Exibe informações sobre as permissões que serão aplicadas
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Corrigindo DCOM") -NoNewline
+Write-Host ("{0,-86} " -f "CLSID: $CLSID") -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
 
+Write-Host "║" -NoNewline -ForegroundColor Cyan
+Write-Host ("{0,-30} : " -f "Corrigindo DCOM") -NoNewline
+Write-Host ("{0,-86} " -f "APPID: $APPID") -NoNewline -ForegroundColor White
+Write-Host "║" -ForegroundColor Cyan
+
+# Caminho no Registro para a configuração do CLSID e APPID em HKEY_LOCAL_MACHINE
+$clsidPath = "HKLM:\SOFTWARE\Classes\CLSID\{$CLSID}"
+$appidPath = "HKLM:\SOFTWARE\Classes\AppID\{$APPID}"
+
+# Verifica se o CLSID existe no Registro
+if (-not (Test-Path $clsidPath)) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
     Write-Host ("{0,-30} : " -f "Erro") -NoNewline
-    Write-Host ("{0,-86} " -f "Diretorio não encontrado") -NoNewline -ForegroundColor Green
+    Write-Host ("{0,-86} " -f "CLSID $CLSID não encontrado no Registro.") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
 
     exit
 }
 
-# Obtém todos os dispositivos de armazenamento no sistema
-$storageDevices = Get-WmiObject -Query "SELECT * FROM Win32_DiskDrive"
-
-foreach ($device in $storageDevices) {
+# Verifica se o APPID existe no Registro
+if (-not (Test-Path $appidPath)) {
     Write-Host "║" -NoNewline -ForegroundColor Cyan
-    Write-Host ("{0,-30} : " -f "Pesquisando") -NoNewline
-    Write-Host ("{0,-86} " -f $($device.Model)) -NoNewline -ForegroundColor Green
+    Write-Host ("{0,-30} : " -f "Erro") -NoNewline
+    Write-Host ("{0,-86} " -f "CLSID $CLSID não encontrado no Registro.") -NoNewline -ForegroundColor White
     Write-Host "║" -ForegroundColor Cyan
-    
-    # Atualiza o driver usando a pasta informada como base
-    $devicePNP = Get-WmiObject Win32_PnPEntity | Where-Object { $_.DeviceID -eq $device.DeviceID }
 
-    if ($devicePNP) {
-        Write-Host "║" -NoNewline -ForegroundColor Cyan
-        Write-Host ("{0,-30} : " -f "Atualizando") -NoNewline
-        Write-Host ("{0,-86} " -f $($device.Model)) -NoNewline -ForegroundColor Green
-        Write-Host "║" -ForegroundColor Cyan
-        
-        # Forçar a atualização do driver (usando pnputil)
-        $updateDriverCmd = "pnputil /add-driver ""$diretorio\*.inf"" /install"
-        
-        try {
-            # Executa o comando para atualizar o driver
-            Invoke-Expression $updateDriverCmd
-            Write-Host "Driver atualizado para o dispositivo: $($devicePNP.Name)" -ForegroundColor Green
+    exit
+}
 
-            Write-Host "║" -NoNewline -ForegroundColor Cyan
-            Write-Host ("{0,-30} : " -f "Driver Atualizado") -NoNewline
-            Write-Host ("{0,-86} " -f $($device.Model)) -NoNewline -ForegroundColor Green
-            Write-Host "║" -ForegroundColor Cyan
+# Concedendo permissões de ativação local no DCOM para o grupo Administradores
+try {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Permissões") -NoNewline
+    Write-Host ("{0,-86} " -f "Concedendo permissões de ativação local ao usuário $User...") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
 
-        } catch {
-            Write-Host "║" -NoNewline -ForegroundColor Cyan
-            Write-Host ("{0,-30} : " -f "Erro ao Atualizar") -NoNewline
-            Write-Host ("{0,-86} " -f $($device.Model)) -NoNewline -ForegroundColor White
-            Write-Host "║" -ForegroundColor Cyan
-        }
-    } else {
-            Write-Host "║" -NoNewline -ForegroundColor Cyan
-            Write-Host ("{0,-30} : " -f "Erro ao Atualizar") -NoNewline
-            Write-Host ("{0,-86} " -f "Driver não localizado") -NoNewline -ForegroundColor White
-            Write-Host "║" -ForegroundColor Cyan
-    }
+    # Adiciona permissões de ativação local para o usuário especificado
+    $dcomConfig = New-Object -ComObject "Shell.Application"
+    $dcomConfig.ShellExecute("dcomcnfg", "/standalone /cl {0}" -f $CLSID, "", "runas")
+
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Permissões") -NoNewline
+    Write-Host ("{0,-86} " -f "Permissões de ativação local concedidas com sucesso!") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
+} catch {
+    Write-Host "║" -NoNewline -ForegroundColor Cyan
+    Write-Host ("{0,-30} : " -f "Erro") -NoNewline
+    Write-Host ("{0,-86} " -f "Aplicar permissões DCOM: $_") -NoNewline -ForegroundColor White
+    Write-Host "║" -ForegroundColor Cyan
 }
 #----------------------------------------------------------------------------------------------
 
