@@ -26,7 +26,7 @@
 
 param (
     [string]$fontDirectory = "D:\perfil\OneDrive\Documents\Projeto Powershell\script\PowerShellTools\fontes",  # Caminho da pasta onde as fontes estão localizadas
-    [string]$scope = "all"  # Escopo de instalação: "current" para usuário atual, "all" para todos os usuários
+    [string]$scope = "current"  # Escopo de instalação: "current" para usuário atual, "all" para todos os usuários
 )
 
 # Cabeçalho
