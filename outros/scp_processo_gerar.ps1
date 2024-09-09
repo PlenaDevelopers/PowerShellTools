@@ -26,7 +26,7 @@
 
 param (
     [string]$ProcessName = "notepad.exe",
-    [int]$ProcessCount = 50
+    [int]$ProcessCount = 15
 )
 
 # Cabeçalho
