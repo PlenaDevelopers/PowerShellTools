@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Mostrar/Esconder a versão do Windows no Desktop
+    Função: Habilitar/Desabilitar a visualização da versão do Windows
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 

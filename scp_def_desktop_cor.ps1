@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Define a cor de fundo do Desktop
+    Função: Define a cor de fundo da "Área de Trabalho"
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
@@ -35,7 +35,7 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Definir a cor de fund odo desktop"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Define a cor de fundo da 'Área de Trabalho'"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações

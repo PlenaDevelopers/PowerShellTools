@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Altera o wallpaper de fundo do Desktop
+    Função: Alterar o wallpaper de fundo do Desktop
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 

@@ -27,6 +27,7 @@ param (
     [string]$nome_arquivo_rdp = "Teste.rdp",
     [string]$rdp_server = "192.168.100.100"
     )
+
 # Cabeçalho
 #----------------------------------------------------------------------------------------------
 # Obter o diretório do script atual

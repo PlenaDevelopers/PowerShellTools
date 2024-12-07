@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Lista Redes Wifi
+    Função: Lista redes Wifi salvas no computador
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
@@ -36,7 +36,7 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Lista Redes Wifi"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Lista redes Wifi salvas no computador"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações

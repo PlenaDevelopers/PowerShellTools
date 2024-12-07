@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Exportar Drivers
+    Função: Iniciar o Google Chrome no modo Kiosk
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
@@ -39,7 +39,7 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Exportar Drivers"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Iniciar o Google Chrome no modo Kiosk"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações

@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Limpar o histórico de cores do Windows
+    Função: Remover o histórico de cores do Windows
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 

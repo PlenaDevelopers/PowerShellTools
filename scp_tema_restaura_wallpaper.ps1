@@ -35,7 +35,7 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Restaurar o papel de parede do desktop"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Restaurar o Wallpaper do Windowsp"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações

@@ -65,8 +65,8 @@ $null = Copy-Item -Path $sourceLogoPath -Destination $destinationLogoPath -Force
 
 # Defina os valores a serem modificados no registro
 $values = @{
-    "Manufacturer" = "Plena Soluções";
-    "Model" = "Cliente Plena Soluções";
+    "Manufacturer" = "Flex IT Soluções";
+    "Model" = "Cliente Flex IT";
     "SupportPhone" = "11 91020-6022";
     "SupportURL" = "http://www.novasuporte.com";
     "Logo" = $destinationLogoPath; 

@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Definir a organização dos ícones da área de trabalho
+    Função: Habilitar/Desabilitar o Autoorganizar Ícones do Desktop
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 

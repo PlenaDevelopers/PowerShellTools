@@ -35,7 +35,7 @@ $scriptName = [System.IO.Path]::GetFileName($MyInvocation.MyCommand.Path)
 $cabecalhoScriptPath = Join-Path -Path $scriptDirectory -ChildPath "scp_script_cabecalho.ps1"
 
 # Executar o script de cabeçalho
-& $cabecalhoScriptPath -Script $scriptName -Titulo "Alterar o servidor NTP"
+& $cabecalhoScriptPath -Script $scriptName -Titulo "Configurar servidor NTP"
 #----------------------------------------------------------------------------------------------
 
 # Iniciar Ações

@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Restaurar as cores do sistema
+    Função: Restaurar cores do Tema do Windows
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 

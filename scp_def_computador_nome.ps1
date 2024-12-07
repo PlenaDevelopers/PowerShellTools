@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Altera o nome do computador
+    Função: Alterar o nome do computador
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 

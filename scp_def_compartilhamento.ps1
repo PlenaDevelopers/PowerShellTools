@@ -1,5 +1,5 @@
 ﻿<#
-    Função: Cria uma pasta compartilhada
+    Função: Criar uma pasta compartilhada
 	Copyright: © Plena Soluções - 2024
 	Date: Agosto/2024
 
