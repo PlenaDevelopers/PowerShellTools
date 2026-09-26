@@ -1,0 +1,182 @@
+<#
+    Copyright: (c) Flex IT - 2026
+    Function: Windows 7 Limpeza Rapida
+    Description: Script Powershell do pacote PowerTool para execution automated em Windows 10 e Windows 11.
+#>
+
+
+# PowerTool: local presentation without external dependencies
+function Initialize-PowerToolConsole {
+    Set-Variable -Name ConfirmPreference -Value 'None' -Scope Global
+    Set-Variable -Name WhatIfPreference -Value $false -Scope Global
+    Set-Variable -Name ProgressPreference -Value 'SilentlyContinue' -Scope Global
+
+    if (-not $global:PowerToolTranscriptActive) {
+        try {
+            $baseDir = $PSScriptRoot
+            if ([string]::IsNullOrWhiteSpace($baseDir)) {
+                if ($PSCommandPath) { $baseDir = Split-Path -Parent $PSCommandPath }
+                elseif ($MyInvocation.MyCommand.Path) { $baseDir = Split-Path -Parent $MyInvocation.MyCommand.Path }
+                else { $baseDir = (Get-Location).Path }
+            }
+            $logDir = Join-Path -Path $baseDir -ChildPath 'logs'
+            if (-not (Test-Path -LiteralPath $logDir)) {
+                New-Item -Path $logDir -ItemType Directory -Force -Confirm:$false | Out-Null
+            }
+            $scriptBase = if ($PSCommandPath) { [System.IO.Path]::GetFileNameWithoutExtension($PSCommandPath) } else { 'PowerTool' }
+            $safeScriptBase = $scriptBase -replace '[^A-Za-z0-9_.-]', '_'
+            $timestamp = Get-Date -Format 'yyyyMMdd_HHmmss'
+            $logPath = Join-Path -Path $logDir -ChildPath ("PowerTool_{0}_{1}_{2}.log" -f $timestamp, $safeScriptBase, $PID)
+            Start-Transcript -Path $logPath -Force -Confirm:$false | Out-Null
+            $global:PowerToolTranscriptActive = $true
+            $global:PowerToolTranscriptPath = $logPath
+            $global:PowerToolTranscriptOwner = $PSCommandPath
+        }
+        catch {
+            $global:PowerToolTranscriptActive = $false
+        }
+    }
+    try {
+        $larguraDesejada = 124
+        if ($Host.Name -match 'ConsoleHost') {
+            $raw = $Host.UI.RawUI
+            $buffer = $raw.BufferSize
+            if ($buffer.Width -lt $larguraDesejada) {
+                $buffer.Width = $larguraDesejada
+                $raw.BufferSize = $buffer
+            }
+            $window = $raw.WindowSize
+            $maxWidth = $raw.MaxPhysicalWindowSize.Width
+            if ($maxWidth -ge $larguraDesejada -and $window.Width -ne $larguraDesejada) {
+                $window.Width = $larguraDesejada
+                $raw.WindowSize = $window
+            }
+            elseif ($window.Width -lt $larguraDesejada -and $maxWidth -gt 0) {
+                $window.Width = [Math]::Min($larguraDesejada, $maxWidth)
+                $raw.WindowSize = $window
+            }
+        }
+    }
+    catch { }
+}
+function Stop-PowerToolTranscript {
+    try {
+        if ($global:PowerToolTranscriptActive -and ($global:PowerToolTranscriptOwner -eq $PSCommandPath -or [string]::IsNullOrWhiteSpace($global:PowerToolTranscriptOwner))) {
+            Stop-Transcript -Confirm:$false | Out-Null
+            $global:PowerToolTranscriptActive = $false
+        }
+    }
+    catch { }
+}
+
+
+
+function Get-PowerToolWidth {
+    try {
+        $width = $Host.UI.RawUI.WindowSize.Width - 4
+        if ($width -lt 80) { return 120 }
+        return [Math]::Min([Math]::Max($width, 96), 160)
+    }
+    catch { return 120 }
+}
+
+function Write-PowerToolBorder {
+    param(
+        [string]$Left,
+        [string]$Right,
+        [string]$Color = 'Cyan'
+    )
+    $width = Get-PowerToolWidth
+    Write-Host ($Left + ('-' * $width) + $Right) -ForegroundColor $Color
+}
+
+function Write-PowerToolLine {
+    param(
+        [string]$Campo,
+        [string]$Valor,
+        [string]$CorValor = 'White',
+        [string]$CorBorda = 'Cyan'
+    )
+    $width = Get-PowerToolWidth
+    $labelWidth = 30
+    $valueWidth = $width - $labelWidth - 3
+    if ($valueWidth -lt 20) { $valueWidth = 20 }
+    if ($null -eq $Valor) { $Valor = '' }
+    $texto = [string]$Valor
+    if ($texto.Length -gt $valueWidth) { $texto = $texto.Substring(0, $valueWidth - 3) + '...' }
+    Write-Host ("|{0,-30} : {1}|" -f $Campo, $texto.PadRight($valueWidth)) -ForegroundColor $CorValor
+}
+
+function Write-PowerToolHeader {
+    param(
+        [string]$Script = $MyInvocation.MyCommand.Name,
+        [string]$Titulo = 'Process',
+        [string]$CopyRight = 'Flex IT'
+    )
+    Initialize-PowerToolConsole
+    $anoAtual = (Get-Date).Year
+    Write-PowerToolBorder '+' '+' 'Yellow'
+    Write-PowerToolLine 'Operation' $Titulo 'Yellow' 'Yellow'
+    Write-PowerToolLine 'Production' $anoAtual 'Yellow' 'Yellow'
+    Write-PowerToolLine 'Copyright' $CopyRight 'Yellow' 'Yellow'
+    Write-PowerToolLine 'Script' $Script 'White' 'Yellow'
+    Write-PowerToolBorder '+' '+' 'Cyan'
+}
+
+function Write-PowerToolFooter {
+    param(
+        [string]$Titulo = 'Process',
+        [string]$Status = 'Finished'
+    )
+    Write-PowerToolBorder '+' '+' 'Cyan'
+    Write-PowerToolLine $Titulo $Status 'Green' 'Yellow'
+    Write-PowerToolBorder '+' '+' 'Yellow'
+    Stop-PowerToolTranscript
+}
+
+Initialize-PowerToolConsole
+
+<#
+    Limpeza rapida para Windows 7.
+    Usa remocao direta em pastas conhecidas para reduzir overhead no Powershell 2.0.
+#>
+
+$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
+. (Join-Path $scriptDir "lib_win7.ps1")
+Assert-Admin $MyInvocation.MyCommand.Path
+Write-Header "Windows 7 - Limpeza rapida"
+
+$paths = @(
+    $env:TEMP,
+    "$env:WINDIR\Temp",
+    "$env:WINDIR\Prefetch",
+    "$env:WINDIR\SoftwareDistribution\Download",
+    "$env:LOCALAPPDATA\Temp",
+    "$env:LOCALAPPDATA\Microsoft\Windows\Temporary Internet Files",
+    "$env:LOCALAPPDATA\Microsoft\Windows\Explorer",
+    "$env:SystemDrive\Temp"
+)
+
+foreach ($path in $paths) {
+    if (Test-Path $path) {
+        Write-Line "Limpando" $path "White"
+        Get-ChildItem -Path $path -Force -ErrorAction SilentlyContinue | ForEach-Object {
+            Remove-Item -Confirm:$false -LiteralPath $_.FullName -Recurse -Force -ErrorAction SilentlyContinue
+        }
+    } else {
+        Write-Line "Ignorado" $path "DarkGray"
+    }
+}
+
+Write-Line "Cache DNS" "Limpando" "White"
+ipconfig /flushdns | Out-Null
+
+Write-Line "Lixeira" "Limpando" "White"
+$recyclePaths = @("$env:SystemDrive\`$Recycle.Bin", "$env:SystemDrive\Recycler")
+foreach ($recyclePath in $recyclePaths) {
+    if (Test-Path $recyclePath) {
+        cmd.exe /c "rd /s /q `"$recyclePath`"" 2>$null
+    }
+}
+
+Write-Footer "Limpeza concluida"
