@@ -1,0 +1,148 @@
+<#
+    Copyright: (c) Flex IT - 2026
+    Function: Fix System Microsoft-Windows-DNS-Client 1014
+    Description: Standalone diagnostic and safe remediation tool for System / Microsoft-Windows-DNS-Client / Event ID 1014.
+#>
+[CmdletBinding()]
+param(
+    [ValidateRange(1,3650)]
+    [int]$DaysBack = 30,
+
+    [ValidateRange(1,500)]
+    [int]$MaxEvents = 50,
+
+    [switch]$Repair
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$EventLogName = 'System'
+$EventProviderName = 'Microsoft-Windows-DNS-Client'
+$EventId = 1014
+$EventClassification = 'Conditionally Repairable'
+$EventSummary = 'DNS Client name resolution timeout. Diagnoses adapters, DNS servers, DNS Client service, gateway, and cache without replacing corporate DNS.'
+
+function Write-Section { param([string]$Title) Write-Host ''; Write-Host ('=' * 88) -ForegroundColor Cyan; Write-Host $Title -ForegroundColor Cyan; Write-Host ('=' * 88) -ForegroundColor Cyan }
+function Write-Item { param([string]$Label,[object]$Value,[ConsoleColor]$Color = [ConsoleColor]::White) if ($null -eq $Value -or [string]::IsNullOrWhiteSpace([string]$Value)) { $Value = 'Not available' }; Write-Host ('{0,-28}: ' -f $Label) -NoNewline -ForegroundColor DarkGray; Write-Host ([string]$Value) -ForegroundColor $Color }
+function Write-Status { param([string]$Status,[string]$Message) $color = switch ($Status) { 'OK' { 'Green' } 'WARN' { 'Yellow' } 'FAIL' { 'Red' } 'INFO' { 'Cyan' } default { 'White' } }; Write-Host ('[{0}] {1}' -f $Status,$Message) -ForegroundColor $color }
+
+function ConvertTo-EventDataMap {
+    param([Parameter(Mandatory)]$Event)
+    $map = [ordered]@{}
+    try {
+        [xml]$xml = $Event.ToXml()
+        $index = 0
+        foreach ($data in $xml.Event.EventData.Data) {
+            $name = if ($data.Name) { [string]$data.Name } else { 'Data{0}' -f $index }
+            if (-not $map.Contains($name)) { $map[$name] = [string]$data.'#text' }
+            $index++
+        }
+    } catch { }
+    return $map
+}
+
+function Get-EventValue {
+    param([System.Collections.IDictionary]$Data,[string[]]$Names)
+    foreach ($name in $Names) {
+        if ($Data.Contains($name) -and -not [string]::IsNullOrWhiteSpace([string]$Data[$name])) { return [string]$Data[$name] }
+    }
+    return $null
+}
+
+function Get-EventsByIdentity {
+    param([string]$LogName,[string]$ProviderName,[int]$Id,[datetime]$StartTime,[int]$Limit = 50)
+    $filter = @{ LogName = $LogName; Id = $Id; StartTime = $StartTime }
+    if ($ProviderName -and $ProviderName -ne '*') { $filter.ProviderName = $ProviderName }
+    try { @(Get-WinEvent -FilterHashtable $filter -MaxEvents $Limit -ErrorAction Stop) }
+    catch [System.Diagnostics.Eventing.Reader.EventLogException] { @() }
+    catch { @() }
+}
+
+function Get-FrequencySummary {
+    param([object[]]$Events)
+    $now = Get-Date
+    [pscustomobject]@{
+        Total = @($Events).Count
+        Last24Hours = @($Events | Where-Object { $_.TimeCreated -ge $now.AddHours(-24) }).Count
+        Last7Days = @($Events | Where-Object { $_.TimeCreated -ge $now.AddDays(-7) }).Count
+        FirstOccurrence = @($Events | Sort-Object TimeCreated | Select-Object -First 1).TimeCreated
+        LatestOccurrence = @($Events | Sort-Object TimeCreated -Descending | Select-Object -First 1).TimeCreated
+    }
+}
+
+function Show-EventHeader {
+    Write-Section ('Event Viewer Standalone Tool: {0} / {1} / {2}' -f $EventLogName,$EventProviderName,$EventId)
+    Write-Item 'Log' $EventLogName
+    Write-Item 'Provider' $EventProviderName
+    Write-Item 'Event ID' $EventId
+    Write-Item 'Classification' $EventClassification Yellow
+    Write-Status 'INFO' $EventSummary
+    Write-Status 'INFO' 'This script identifies events by Log + Provider + Event ID, not by Event ID alone.'
+}
+
+function Show-Frequency {
+    param([object[]]$Events)
+    $f = Get-FrequencySummary -Events $Events
+    Write-Section 'Frequency'
+    Write-Item 'Total in selected window' $f.Total
+    Write-Item 'Last 24 hours' $f.Last24Hours
+    Write-Item 'Last 7 days' $f.Last7Days
+    Write-Item 'First occurrence' $f.FirstOccurrence
+    Write-Item 'Latest occurrence' $f.LatestOccurrence
+}
+
+function Show-LatestEventCore {
+    param($Event)
+    Write-Section 'Latest Matching Event'
+    Write-Item 'Time' $Event.TimeCreated
+    Write-Item 'Record ID' $Event.RecordId
+    Write-Item 'Machine' $Event.MachineName
+    $data = ConvertTo-EventDataMap -Event $Event
+    $shown = 0
+    foreach ($key in $data.Keys) {
+        if ($shown -ge 10) { break }
+        Write-Item $key $data[$key]
+        $shown++
+    }
+    return $data
+}
+
+function Get-RelatedEventCount {
+    param([string]$LogName,[string]$ProviderName,[int]$Id,[int]$Hours = 24)
+    @(Get-EventsByIdentity -LogName $LogName -ProviderName $ProviderName -Id $Id -StartTime (Get-Date).AddHours(-[Math]::Abs($Hours)) -Limit 100).Count
+}
+
+function Show-DnsDiagnostics {
+    param($LatestEvent,[System.Collections.IDictionary]$Data)
+    Write-Section 'DNS Evidence'
+    Write-Item 'Query name' (Get-EventValue -Data $Data -Names @('QueryName','param1','Data0')) Cyan
+    try { $svc = Get-Service -Name Dnscache -ErrorAction Stop; Write-Item 'DNS Client service' $svc.Status }
+    catch { Write-Status 'WARN' ('Unable to query DNS Client service: {0}' -f $_.Exception.Message) }
+    try { Get-DnsClientServerAddress | Select-Object InterfaceAlias,AddressFamily,ServerAddresses | Format-Table -AutoSize | Out-String | Write-Host }
+    catch { Write-Status 'WARN' ('Unable to query DNS server configuration: {0}' -f $_.Exception.Message) }
+    try { Get-NetIPConfiguration | Select-Object InterfaceAlias,IPv4Address,IPv6Address,IPv4DefaultGateway,DNSServer | Format-List | Out-String | Write-Host }
+    catch { Write-Status 'WARN' ('Unable to query IP configuration: {0}' -f $_.Exception.Message) }
+    Write-Section 'Safety Decision'
+    if ($Repair) {
+        Write-Status 'INFO' 'Repair mode requested. DNS cache flush is safe and does not replace corporate DNS servers.'
+        try { Clear-DnsClientCache; Write-Status 'OK' 'DNS client cache flushed.' } catch { Write-Status 'WARN' ('Unable to flush DNS cache: {0}' -f $_.Exception.Message) }
+    }
+    Write-Status 'INFO' 'Configured DNS servers were preserved. No public DNS server was injected.'
+}
+
+Show-EventHeader
+$start = (Get-Date).AddDays(-[Math]::Abs($DaysBack))
+$events = Get-EventsByIdentity -LogName $EventLogName -ProviderName $EventProviderName -Id $EventId -StartTime $start -Limit $MaxEvents
+if (-not $events -or $events.Count -eq 0) {
+    Write-Status 'OK' 'No matching events were found in the selected time window.'
+    exit 0
+}
+Show-Frequency -Events $events
+$latest = @($events | Sort-Object TimeCreated -Descending | Select-Object -First 1)[0]
+$data = Show-LatestEventCore -Event $latest
+Show-DnsDiagnostics -LatestEvent $latest -Data $data
+Write-Section 'Final Report'
+Write-Item 'Result' $EventClassification Yellow
+Write-Item 'Repair requested' ([bool]$Repair)
+Write-Status 'INFO' 'Completed without using external PowerShellTools files, custom modules, repository metadata, or Internet access.'

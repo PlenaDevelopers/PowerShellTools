@@ -45,5 +45,4 @@ Some scripts change registry keys, services, firewall rules, shares, Windows set
 The repository intentionally avoids customer-specific configuration. Use parameters or local copies outside version control when a deployment needs private names, credentials, addresses, or network paths.
 ## Event Viewer diagnostics
 
-Event Viewer diagnostics are available under `extras/event_viewer_fixes/`. They identify events by Log, Provider, and Event ID, then classify them as informational, diagnostic, conditionally repairable, hardware investigation, or security investigation. See `docs/event-viewer-diagnostics.md` and `docs/event-viewer-audit.csv`.
-
+Event Viewer diagnostics are available under `extras/event_viewer_fixes/` as standalone `Fix-*.ps1` files. Each script can be downloaded and run by itself, identifies events by Log, Provider, and Event ID, and performs diagnostics or guarded remediation only when technically appropriate. See `docs/event-viewer-diagnostics.md` and `docs/event-viewer-audit.csv`.
