@@ -46,3 +46,7 @@ The repository intentionally avoids customer-specific configuration. Use paramet
 ## Event Viewer diagnostics
 
 Event Viewer diagnostics are available under `extras/event_viewer_fixes/` as standalone `Fix-*.ps1` files. Each script can be downloaded and run by itself, identifies events by Log, Provider, and Event ID, and performs diagnostics or guarded remediation only when technically appropriate. See `docs/event-viewer-diagnostics.md` and `docs/event-viewer-audit.csv`.
+
+## Standalone tool library
+
+PowerShellTools includes a standalone Windows troubleshooting library under `extras/`. These scripts can be launched from the PowerShellTools menu or downloaded individually from GitHub and run by themselves. See `docs/standalone-tools-catalog.md` and `docs/tool-expansion-audit.csv` for the full catalog, administrator requirements, and read-only/repair status.

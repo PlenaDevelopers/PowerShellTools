@@ -1,0 +1,66 @@
+filename,purpose,category,admin,standalone,mode,audit_status,action
+tool_diagnostic_windows_health.ps1,Comprehensive Windows health diagnostic.,Windows,No,Yes,Read-only,MISSING,Created standalone tool
+tool_repair_windows_system.ps1,Intelligent Windows system integrity repair.,Repair,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_repair_windows_update.ps1,Diagnose and repair Windows Update.,Repair,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_diagnostic_pending_reboot.ps1,Detect Windows pending reboot indicators.,Windows,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_bsod.ps1,Analyze available BSOD evidence.,Windows,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_unexpected_shutdown.ps1,Correlate unexpected shutdown evidence.,Windows,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_disk_health.ps1,General disk health diagnostic.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_smart.ps1,Analyze SMART information exposed by Windows.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_nvme.ps1,NVMe-focused diagnostic.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_analyze_disk_space.ps1,Analyze disk-space consumption.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_find_large_files.ps1,Find large files safely.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_find_duplicate_files.ps1,Find duplicate files safely.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_ntfs.ps1,Analyze NTFS health.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_vss.ps1,Diagnose Volume Shadow Copy.,Storage,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_network.ps1,Comprehensive network diagnostic.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_dns.ps1,Analyze DNS configuration and resolution.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_repair_dns.ps1,Safe DNS remediation.,Network,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_diagnostic_ip_conflict.ps1,Detect evidence of IP conflicts.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_internet.ps1,Diagnose Internet connectivity path.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_wifi.ps1,Analyze Wi-Fi state.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_monitor_wifi_signal.ps1,Monitor Wi-Fi signal over time.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_analyze_routes.ps1,Analyze Windows routing table.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_analyze_open_ports.ps1,Display listening ports and responsible processes.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_monitor_connections.ps1,Monitor active TCP connections.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_detect_proxy.ps1,Detect Windows proxy configuration.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_vpn.ps1,Diagnose Windows-native VPN configuration.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_smb.ps1,Analyze SMB configuration and evidence.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_rdp.ps1,Analyze Remote Desktop configuration.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_firewall.ps1,Analyze Windows Firewall.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_network_printer.ps1,Analyze network printer connectivity.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_export_network_configuration.ps1,Export network configuration report.,Network,No,Yes,Read-only,MISSING,Created standalone tool
+tool_inventory_drivers.ps1,Inventory installed drivers.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_detect_problem_devices.ps1,Find Device Manager problem devices.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_detect_unsigned_drivers.ps1,Identify unsigned driver conditions.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_backup_drivers.ps1,Back up third-party Windows drivers.,Hardware,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_restore_drivers.ps1,Restore drivers from backup.,Hardware,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_diagnostic_gpu.ps1,Analyze GPU and display driver state.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_audio.ps1,Analyze audio device state.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_bluetooth.ps1,Analyze Bluetooth state.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_webcam.ps1,Analyze webcam and camera privacy state.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_usb.ps1,Analyze USB devices and controllers.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_report_battery_health.ps1,Generate battery health information.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_inventory_ram.ps1,Inventory RAM modules.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_inventory_cpu.ps1,Inventory CPU information.,Hardware,No,Yes,Read-only,MISSING,Created standalone tool
+tool_analyze_startup.ps1,Analyze startup applications.,Performance,No,Yes,Read-only,MISSING,Created standalone tool
+tool_audit_scheduled_tasks.ps1,Audit scheduled tasks.,Performance,No,Yes,Read-only,MISSING,Created standalone tool
+tool_analyze_processes.ps1,Analyze running processes.,Performance,No,Yes,Read-only,MISSING,Created standalone tool
+tool_detect_high_cpu.ps1,Detect sustained high CPU processes.,Performance,No,Yes,Read-only,MISSING,Created standalone tool
+tool_detect_high_memory.ps1,Detect high memory consumers.,Performance,No,Yes,Read-only,MISSING,Created standalone tool
+tool_find_file_lock.ps1,Find likely process locking a file.,Performance,No,Yes,Read-only,MISSING,Created standalone tool
+tool_repair_windows_search.ps1,Diagnose and repair Windows Search.,Windows,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_repair_microsoft_store.ps1,Repair Microsoft Store infrastructure.,Windows,Yes,Yes,Repair,MISSING,Created standalone tool
+tool_audit_environment_variables.ps1,Audit environment variables and PATH.,User Environment,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_user_profile.ps1,Analyze Windows user profile health.,User Environment,No,Yes,Read-only,MISSING,Created standalone tool
+tool_detect_temporary_profile.ps1,Detect temporary profile evidence.,User Environment,No,Yes,Read-only,MISSING,Created standalone tool
+tool_audit_local_users.ps1,Audit local accounts.,Security,No,Yes,Read-only,MISSING,Created standalone tool
+tool_audit_local_administrators.ps1,Audit local Administrators membership.,Security,No,Yes,Read-only,MISSING,Created standalone tool
+tool_audit_password_policy.ps1,Audit password and lockout policy.,Security,No,Yes,Read-only,MISSING,Created standalone tool
+tool_diagnostic_defender.ps1,Analyze Microsoft Defender status.,Security,No,Yes,Read-only,MISSING,Created standalone tool
+tool_audit_secure_boot_tpm.ps1,Audit Secure Boot and TPM.,Security,No,Yes,Read-only,MISSING,Created standalone tool
+tool_check_windows11_compatibility.ps1,Evaluate Windows 11 compatibility.,Security,No,Yes,Read-only,MISSING,Created standalone tool
+tool_report_system_information.ps1,Generate comprehensive system report.,Support,No,Yes,Read-only,MISSING,Created standalone tool
+tool_collect_support_diagnostics.ps1,Collect support diagnostics package.,Support,No,Yes,Read-only,MISSING,Created standalone tool
+tool_compare_system_snapshot.ps1,Create and compare system snapshots.,Support,No,Yes,Read-only,MISSING,Created standalone tool
+tool_analyze_recent_changes.ps1,Analyze recent Windows changes timeline.,Support,No,Yes,Read-only,MISSING,Created standalone tool
