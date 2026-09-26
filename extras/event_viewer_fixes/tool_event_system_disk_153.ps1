@@ -1,7 +1,7 @@
 <#
     Copyright: (c) Flex IT - 2026
-    Function: Diagnose Legacy Event 243
-    Description: Diagnoses System / * / Event ID 243 using safe PowerTool Event Viewer handling.
+    Function: Diagnose System Disk 153
+    Description: Diagnoses System / Disk / Event ID 153 using safe PowerTool Event Viewer handling.
 #>
 [CmdletBinding()]
 param(
@@ -12,4 +12,4 @@ param(
 
 $enginePath = Join-Path -Path $PSScriptRoot -ChildPath 'PowerTool.EventViewer.ps1'
 . $enginePath
-Invoke-PowerToolEventDiagnostic -EventKey 'legacy_event_243' -DaysBack $DaysBack -MaxEvents $MaxEvents -Repair:$Repair
+Invoke-PowerToolEventDiagnostic -EventKey 'system_disk_153' -DaysBack $DaysBack -MaxEvents $MaxEvents -Repair:$Repair

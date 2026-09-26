@@ -1,7 +1,7 @@
 <#
     Copyright: (c) Flex IT - 2026
-    Function: Diagnose Legacy Event 243
-    Description: Diagnoses System / * / Event ID 243 using safe PowerTool Event Viewer handling.
+    Function: Diagnose System NTFS 55
+    Description: Diagnoses System / Ntfs / Event ID 55 using safe PowerTool Event Viewer handling.
 #>
 [CmdletBinding()]
 param(
@@ -12,4 +12,4 @@ param(
 
 $enginePath = Join-Path -Path $PSScriptRoot -ChildPath 'PowerTool.EventViewer.ps1'
 . $enginePath
-Invoke-PowerToolEventDiagnostic -EventKey 'legacy_event_243' -DaysBack $DaysBack -MaxEvents $MaxEvents -Repair:$Repair
+Invoke-PowerToolEventDiagnostic -EventKey 'system_ntfs_55' -DaysBack $DaysBack -MaxEvents $MaxEvents -Repair:$Repair
